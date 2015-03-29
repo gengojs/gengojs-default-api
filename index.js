@@ -1,139 +1,226 @@
-/*jslint node: true, forin: true, jslint white: true, newcap: true*/
-
-/**
- * Takeshi Iwana aka iwatakeshi
- * MIT 2015
- * accept-language.js
- * This module parses the routes
- * and sets the dot notation
- * according to the path.
- */
-var _ = require('lodash');
 var cldr = require('cldr');
 
-// Helpers
-
-function isLocale(str) {
+function api() {
   'use strict';
-  str = str.toLowerCase().replace('-', '_');
-  // Compare the locales against cldr
-  return _.contains(cldr.localeIds, str);
-}
+  /*jshint validthis: true*/
+  var i18n = function() {};
+  var l10n = function() {};
+  var _ = this.utils._;
+  var debug = this.utils.debug('default-router');
+  var options = _.defaults(
+    this.plugins._api.options || {}, require('./defaults/'));
+  /**
+   * @method i18n
+   * @description I18ns the arguments.
+   * Note: You can change ID for i18n. See Configuration.
+   * @param  {...*} arg The arguments to internationalize.
+   *
+   * @example <caption>Phrase notation with default parser.</caption>
+   *
+   * // assuming the locale === 'ja',
+   * // a basic phrase returns 'こんにちは'
+   * __('Hello');
+   *
+   * // a basic phrase with sprintf returns 'Bob こんにちは'
+   * __('Hello %s', 'Bob');
+   *
+   * // a basic phrase with interpolation returns 'Bob こんにちは'
+   *  __('Hello {{name}}', {name:'Bob'});
+   *
+   * @example <caption>Bracket notation with default parser.</caption>
+   *
+   * // assuming the locale === 'ja',
+   * // a basic bracket phrase returns 'おっす'
+   * __('[Hello].informal');
+   *
+   * // a basic bracket phrase with sprintf returns 'Bob おっす'
+   * __('[Hello %].informal', 'Bob');
+   *
+   * // a basic bracket phrase with interpolation returns 'Bob おっす'
+   * __('[Hello {{name}}].informal', {name:'Bob'});
+   *
+   * @example <caption>Dot notation with default parser.</caption>
+   *
+   * // assuming the locale === 'ja',
+   * // a basic dot phrase returns 'おっす'
+   * __('greeting.hello.informal');
+   *
+   * // a basic dot phrase with sprintf returns 'Bob おっす'
+   * __('greeting.hello.person.informal', 'Bob');
+   *
+   * //a basic dot phrase with interpolation returns 'Bob おっす'
+   * __('greeting.hello.person.informal', {name:'Bob'});
+   *
+   * @example <caption>All notations with Message Format.</caption>
+   * // See '{@link https://github.com/thetalecrafter/
+     message-format|message-format}' for documentation.
+   *
+   * // assuming the locale === 'en-us',
+   * // a basic phrase with message formatting
+   * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
+   * __('You took {n,number} pictures since 
+     {d,date} {d,time}', { n:4000, d:new Date() });
+   *
+   * // a basic bracket phrase with message formatting
+   * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
+   * __('[You took {n, numbers} pictures].since.date', 
+     { n:4000, d:new Date() });
+   *
+   * // a basic dot phrase with message formatting
+   * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
+   * __('pictures.since.date', { n:4000, d:new Date() });
+   *
+   * @return {String} Then i18ned string.
+   * @public
+   */
 
-// Router class
-function Router(path) {
-  'use strict';
-  if (path) this.path = path;
-}
-
-// Router.route base class (inheritance hack)
-function RouteBase(path) {
-  'use strict';
-  this.path = path;
-  return this.path;
-}
-
-// Router prototype: isLocale
-Router.prototype.isLocale = isLocale;
-
-// Router prototype: route
-Router.prototype.route = function() {
-  'use strict';
-  return (new RouteBase(this.path));
-};
-
-
-
-// Route.route prototype: toArray
-RouteBase.prototype.toArray = function(path) {
-  'use strict';
-  path = path ? path.split('/') : this.path.split('/');
-  var filtered = [],
-    result = [];
-  var version = /\d{1,2}(\.)\d{1,2}((\.)\d{1,2})?$/;
-  if (path.length < 3) {
-    // It's safe to say that path[0] will always be ''
-    // so add the second '' and define it as the index
-    if (path[1] === '') {
-      result.push('index');
-    } else {
-      // Make sure the path does not contain a locale
-      // and maybe something does exist besides ''? (precaution)
-      if (!isLocale(path[1])) result.push(path[1]);
-    }
-  } else {
-    // For every item in the path
-    // check to see if it contains a version or
-    // if its a regular name. then add it to the 
-    // filtered array
-    _.forEach(path, function(item) {
-      //Make sure the path does not contain a locale
-      if (!isLocale(item))
-        if (item.match(version)) {
-          // Prevent the version dots from being
-          // interpreted as a dot notation
-          filtered.push(item.replace('.', '*'));
-        } else {
-          filtered.push(item);
-        }
+  i18n[options.global] = function() {
+    debug('fn:', 'i18n-' + options.global);
+    return this.parse.apply(this, arguments);
+  };
+  /**
+   * @method language
+   * @description Returns the name of the current locale.
+   * @param  {string} id The locale to change.
+   *
+   * @example <caption>Get the current language.</caption>
+   *
+   * // assuming locale === 'en-us'
+   * // returns 'American English'
+   * __.languages();
+   *
+   * @example <caption>Get the current language in another locale. </caption>
+   *
+   * // assuming locale === 'en-us'
+   * // returns 'English'
+   * __.language('en');
+   *
+   * // returns 'Japanese'
+   * __.language('ja');
+   *
+   * @return {String} Then i18ned string.
+   * @public
+   */
+  i18n.language = function(id) {
+    debug('fn:', 'i18n-language');
+    // de-normalize locale
+    var locale = this.header.getLocale().replace('-', '_');
+    // denormalize id
+    id = id ? id.toLowerCase().replace('-', '_') : locale;
+    // store the languages
+    return cldr.extractLanguageDisplayNames(locale)[id];
+  };
+  /**
+   * @method languages
+   * @description Returns the names of the supported locale.
+   * @param  {String | Array} arg The locale to change or the supported locales.
+   * @param {Array} supported The supported locales.
+   *
+   * @example <caption>Get the supported languages.</caption>
+   *
+   * // assuming locale === 'en-us'
+   * // returns ['American English', 'Japanese']
+   * __.lanugages();
+   *
+   * @example <caption>Get the current languages in another locale. </caption>
+   *
+   * // assuming locale === 'en-us'
+   * // returns ['アメリカ英語', '日本語']
+   * __.languages('ja');
+   *
+   * @example <caption>Override the supported locales.</caption>
+   *
+   * // assuming locale === 'en-us'
+   * // returns ['English', 'Japanese']
+   * __.languages(['en', 'ja']);
+   *
+   * @example <caption>Override the supported locales 
+     and get the languages in another locale.</caption>
+   *
+   * // assuming locale === 'en-us'
+   * // returns ['英語', '日本語']
+   * __.languages('ja', ['en', 'ja']);
+   *
+   * @return {String} Then i18ned string.
+   * @public
+   */
+  i18n.languages = function(arg, supported) {
+    debug('fn:', 'i18n-languages');
+    var _supported = [];
+    supported = (_.isArray(arg) ? arg : supported) || this.settings.supported();
+    arg = _.isArray(arg) ? undefined : arg;
+    _.forEach(supported, function(locale) {
+      // de-normalize locales
+      locale = locale.replace('-', '_');
+      // denormalize arg
+      arg = arg ? arg.toLowerCase().replace('-', '_') :
+        this.header.getLocale().replace('-', '_');
+      // store the languages
+      _supported.push(cldr.extractLanguageDisplayNames(arg)[locale]);
     }, this);
+    return _supported;
+  };
 
-    path = filtered;
-    // Once we have filtered 
-    for (var count = 1; count < path.length; count++) {
-      // Make sure the path does not contain a locale
-      if (!isLocale(path[count]))
-        if (count === 1) {
-          if (path[count] === '') result.push('index');
-          else result.push(path[count]);
-        } else {
-          // Make sure nothing else is empty
-          if (path[count] !== '') result.push(path[count]);
-        }
-    }
-  }
-  return result;
-};
+  /**
+   * @method locales
+   * @description Sets or gets the locale.
+   * @param  {String} locale The locale to set or get.
+   *
+   * @example <caption>Get the current locale.</caption>
+   *
+   * // assuming locale === 'en-us'
+   * // returns 'en-us'
+   * __.locale()
+   *
+   * @example <caption>Set the locale.</caption>
+   *
+   * // asumming locale === 'en-us'
+   * // sets and returns 'ja'
+   * __.locale('ja')
+   *
+   * @return {String} The locale.
+   * @public
+   */
+  i18n.locale = function(locale) {
+    debug('fn:', 'i18n-locale');
+    return locale ? this.header.setLocale(locale) : this.header.detectLocale();
+  };
 
-// Route.route prototype: toDot
-RouteBase.prototype.toDot = function(array) {
-  'use strict';
-  array = array ? array : this.toArray();
-  if (array.length > 1) return array.join().replace(/,/g, '.');
-  else return array[0];
-};
+  /**
+   * @description Get the entire
+   * @return {CLDR} The instance of cldr.
+   */
+  i18n.cldr = function() {
+    debug('fn:', 'i18n-cldr');
+    return cldr;
+  };
 
-/* Let Router also inherit RouteBase's prototype */
+  /**
+   * @method l10n
+   * @description Localizes date, time and numbers.
+   * See {@link https://github.com/iwatakeshi/tokei|Tokei} for documentation.
+   * Note: You can change ID for l10n. See Configuration.
+   * @param  {String}  locale The locale to override.
+   * @return {Tokei} The instance of Tokei.
+   * @public
+   */
+  l10n[options.localize] = function() {
+    debug('fn:', 'i18n-' + options.localize);
+    return this.localize.apply(this, arguments);
+  };
 
-// Router().toArray(path)
-Router.prototype.toArray = RouteBase.prototype.toArray;
-// Router().toDot(path)
-Router.prototype.toDot = RouteBase.prototype.toDot;
-
-// Ship it!
-function router(req) {
-  'use strict';
-  /*jshint validthis:true*/
-
-  // Set options
-  var options = this.plugins._router.options;
-  // Set defaults
-  options = _.defaults(options || {}, require('./defaults'));
-  // Expose internal API
-  if (req && options.enabled) this.router = new Router(req, this.utils);
-  // Debug
-  if (this.router && options.enabled)
-    this.utils.debug('route')('path:', this.router.route(),
-      'toArray:', this.router.route().toArray(),
-      'toDot:', this.router.route().toDot());
+  this.api = {
+    i18n: i18n,
+    l10n: l10n
+  };
 }
 
 module.exports = function() {
   'use strict';
   var pkg = require('./package');
-  pkg.type = 'api';
+  pkg.type = 'router';
   return {
-    main: router,
+    main: api,
     package: pkg
   };
 };

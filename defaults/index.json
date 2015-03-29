@@ -1,3 +1,4 @@
 {
-  "enabled": true
+  "global": "__",
+  "localize": "__l"
 }
