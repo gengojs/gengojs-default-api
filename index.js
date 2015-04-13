@@ -23,8 +23,6 @@ var debug = _d2['default']('default-api');
 function api() {
   var _this2 = this;
 
-  var _arguments = arguments;
-
   'use strict';
   /*jshint validthis: true*/
   var i18n = function i18n() {};
@@ -99,8 +97,12 @@ function api() {
    */
 
   i18n[options.global] = function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
     debug('fn:', 'i18n-globalize');
-    return _this.parse.apply(_this, _arguments);
+    return _this.parse.apply(_this, args);
   };
   /**
    * @method language
@@ -228,8 +230,12 @@ function api() {
    * @public
    */
   l10n[options.localize] = function () {
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
     debug('fn:', 'i18n-localize');
-    return _this.localize.apply(_this, _arguments);
+    return _this.localize.apply(_this, args);
   };
 
   this.api = {
