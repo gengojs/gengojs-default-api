@@ -21,7 +21,7 @@ var _d2 = _interopRequireWildcard(_d);
 var debug = _d2['default']('default-api');
 
 function api() {
-  var _this = this;
+  var _this2 = this;
 
   var _arguments = arguments;
 
@@ -30,8 +30,9 @@ function api() {
   var i18n = function i18n() {};
   var l10n = function l10n() {};
   var options = this.options.api;
+  var _this = this;
   _import2['default'].assign(options.header = {}, this.options.header);
-  debug('options', options);
+  debug('options exists:', !!options);
   /**
    * @method i18n
    * @description I18ns the arguments.
@@ -127,7 +128,7 @@ function api() {
   i18n.language = function (id) {
     debug('fn:', 'i18n-language');
     // de-normalize locale
-    var locale = this.header.getLocale().replace('-', '_');
+    var locale = _this.header.getLocale().replace('-', '_');
     // denormalize id
     id = id ? id.toLowerCase().replace('-', '_') : locale;
     // store the languages
@@ -205,7 +206,7 @@ function api() {
    */
   i18n.locale = function (locale) {
     debug('fn:', 'i18n-locale');
-    return locale ? _this.header.setLocale(locale) : _this.header.detectLocale();
+    return locale ? _this.header.setLocale(locale) : _this2.header.detectLocale();
   };
 
   /**
