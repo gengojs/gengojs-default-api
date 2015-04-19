@@ -4,6 +4,7 @@ The default API plugin for gengojs.
 
 This module will be used for the upcoming [gengo.js](https://github.com/iwatakeshi/gengojs) **1.0.0**.
 
+Note: The API examples defined are respect to the [default parser](https://github.com/iwatakeshi/gengojs-default-parser).
 
 An example usage with options is:
 
@@ -29,7 +30,7 @@ app.use(gengo({
 The default api is already included in gengojs so you should not have to require it.
 
 
-##Options
+## Options
 
 ```json
 {
@@ -37,3 +38,262 @@ The default api is already included in gengojs so you should not have to require
 	"localize":"__l"
 }
 ```
+## Internal API
+
+`api()` returns the API object.
+
+**Example**:
+
+```js
+// Context
+this.api.api();
+```
+## Dependencies
+	
+* `getLocale(locale:String)` from class `Header`
+* `setLocale(locale:String)` from class `Header`
+* `detectLocale(locale:String)` from class `Header`
+* `supported:Array` from `Header` options
+
+## Debug
+
+Unix:
+
+```bash
+DEBUG=default-api
+```
+Windows:
+
+```bash
+SET DEBUG=default-api
+```
+
+
+## API
+
+* * *
+
+### i18n(arg) 
+
+I18ns the arguments.
+Note: You can change ID for i18n. See Configuration.
+
+**Parameters**
+
+**arg**: `*`, The arguments to internationalize.
+
+**Returns**: `String`, Then i18ned string.
+
+**Example**:
+
+<h6>Phrase notation with default parser.</h6>
+
+```js
+// Assuming the locale === 'ja',
+// a basic phrase returns 'こんにちは'
+__('Hello');
+
+// a basic phrase with sprintf returns 'Bob こんにちは'
+__('Hello %s', 'Bob');
+
+// a basic phrase with interpolation returns 'Bob こんにちは'
+ __('Hello {{name}}', {name:'Bob'});
+ ```
+ <h6>Bracket notation with default parser.</h6>
+
+```js
+// Assuming the locale === 'ja',
+// a basic bracket phrase returns 'おっす'
+__('[Hello].informal');
+
+// a basic bracket phrase with sprintf returns 'Bob おっす'
+__('[Hello %].informal', 'Bob');
+
+// a basic bracket phrase with interpolation returns 'Bob おっす'
+__('[Hello {{name}}].informal', {name:'Bob'});
+```
+<h6>Dot notation with default parser.</h6>
+
+```js
+// Assuming the locale === 'ja',
+// a basic dot phrase returns 'おっす'
+__('greeting.hello.informal');
+
+// a basic dot phrase with sprintf returns 'Bob おっす'
+__('greeting.hello.person.informal', 'Bob');
+
+//a basic dot phrase with interpolation returns 'Bob おっす'
+__('greeting.hello.person.informal', {name:'Bob'});
+```
+
+<h6>All notations with Message Format.</h6>
+
+Note: The format parser uses Yahoo's [intl-messageformat](https://github.com/yahoo/intl-messageformat).
+```js
+
+// Assuming the locale === 'en-us',
+// a basic phrase with message formatting
+// returns "You have 1,000 photos." 
+__('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', { n: 1000 });
+
+// a basic bracket phrase with message formatting
+// returns "You have 1,000 photos since Jan 1, 2015 9:33:04 AM."
+__('[You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}].since.date', 
+     { n:4000, d:new Date() });
+
+// a basic dot phrase with message formatting
+// returns "You have 1,000 photos since Jan 1, 2015 9:33:04 AM."
+__('pictures.since.date', { n:4000, d:new Date() });
+```
+
+### language(id) 
+
+Returns the name of the current locale.
+
+**Parameters**
+
+**id**: `string`, The locale to change.
+
+**Returns**: `String`, Then i18ned string.
+
+**Example**:
+
+<h6>Get the current language.</h6>
+
+```js
+
+// assuming locale === 'en-us'
+// returns 'American English'
+__.languages();
+```
+<h6>Get the current language in another locale. </h6>
+
+```js
+// assuming locale === 'en-us'
+// returns 'English'
+__.language('en');
+
+// returns 'Japanese'
+__.language('ja');
+```
+
+**Example**:
+
+<h6>Get the current language.</h6>
+
+```js
+
+// assuming locale === 'en-us'
+// returns 'American English'
+__.languages();
+```
+<h6>Get the current language in another locale. </h6>
+
+```js
+// assuming locale === 'en-us'
+// returns 'English'
+__.language('en');
+
+// returns 'Japanese'
+__.language('ja');
+```
+
+
+### languages(arg, supported) 
+
+Returns the names of the supported locale.
+
+**Parameters**
+
+**arg**: `String | Array`, The locale to change or the supported locales.
+
+**supported**: `Array`, The supported locales.
+
+**Returns**: `String`, Then i18ned string.
+
+**Example**:
+
+<h6>Get the supported languages.</h6>
+
+```js
+
+// Assuming locale === 'en-us'
+// returns ['American English', 'Japanese']
+__.lanugages();
+```
+<h6>Get the current languages in another locale. </h6>
+
+```js
+// Assuming locale === 'en-us'
+// returns ['アメリカ英語', '日本語']
+__.languages('ja');
+```
+<h6>Override the supported locales.</h6>
+
+```js
+// Assuming locale === 'en-us'
+// returns ['English', 'Japanese']
+__.languages(['en', 'ja']);
+```
+<h6>Override the supported locales and get the languages in another locale.</h6>
+
+```js
+
+// Assuming locale === 'en-us'
+// returns ['英語', '日本語']
+__.languages('ja', ['en', 'ja']);
+```
+
+
+### locales(locale) 
+
+Sets or gets the locale.
+
+**Parameters**
+
+**locale**: `String`, The locale to set or get.
+
+**Returns**: `String`, The locale.
+
+**Example**:
+
+<h6>Get the current locale.</h6>
+
+```js
+
+// Assuming locale === 'en-us'
+// returns 'en-us'
+__.locale()
+```
+<h6>Set the locale.</h6>
+
+```js
+// Asumming locale === 'en-us'
+// sets and returns 'ja'
+__.locale('ja')
+```
+
+
+### l10n(locale) 
+
+Localizes date, time and numbers.
+See [Tokei](https://github.com/iwatakeshi/tokei) for documentation.
+Note: You can change ID for l10n. See Configuration.
+
+**Parameters**
+
+**locale**: `String`, The locale to override.
+
+**Returns**: `Tokei`, The context of Tokei.
+
+* * *
+
+
+
+
+
+
+
+
+
+

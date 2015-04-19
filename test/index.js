@@ -10,8 +10,4 @@ describe('API (plugin)', function() {
       assert.isDefined(gengo.plugins.apis[0]);
     });
   });
-
-  describe('API', function() {
-
-  });
 });
