@@ -145,9 +145,10 @@ var API = (function () {
       i18n.language = function (id) {
         debug('fn:', 'i18n-language');
         // de-normalize locale
-        var locale = _this.header.getLocale().replace('-', '_');
+        var locale = _this.header.getLocale();
+        locale = locale.toLowerCase().replace('-', '_');
         // denormalize id
-        id = id ? id.toLowerCase().replace('-', '_') : locale;
+        id = id ? id.toLowerCase().replace('_', '-') : locale;
         // store the languages
         return _cldr2['default'].extractLanguageDisplayNames(locale)[id];
       };
@@ -191,10 +192,10 @@ var API = (function () {
         supported = (_import2['default'].isArray(arg) ? arg : supported) || options.header.supported;
         arg = _import2['default'].isArray(arg) ? undefined : arg;
         supported.forEach(function (locale) {
+          arg = arg ? arg.toLowerCase() : _this.header.getLocale();
+          arg = arg.replace('_', '-');
           // de-normalize locales
-          locale = locale.replace('-', '_');
-          // denormalize arg
-          arg = arg ? arg.toLowerCase().replace('-', '_') : _this.header.getLocale().replace('-', '_');
+          locale = locale.toLowerCase().replace('-', '_');
           // store the languages
           _supported.push(_cldr2['default'].extractLanguageDisplayNames(arg)[locale]);
         }, _this);
