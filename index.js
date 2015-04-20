@@ -26,21 +26,21 @@ var debug = _d2['default']('default-api');
 /* Class API */
 
 var API = (function () {
-  function API(object, _this) {
+  function API(_this) {
     _classCallCheck(this, API);
 
     this.options = _this.options;
-    this.object = object;
-    this.apply(_this);
+    this.context = _this;
   }
 
   _createClass(API, [{
     key: 'set',
 
     /* Sets the API*/
-    value: function set(_this) {
+    value: function set() {
       var _this2 = this;
 
+      var _this = this.context;
       var i18n = function i18n() {};
       var l10n = function l10n() {};
       var options = this.options.api;
@@ -255,43 +255,44 @@ var API = (function () {
         debug('fn:', 'i18n-localize');
         return _this.localize.apply(_this, args);
       };
-
-      this.api = {
+      return {
         i18n: i18n,
         l10n: l10n
       };
     }
   }, {
-    key: 'api',
+    key: 'get',
 
-    /* Returns the Applied API */
-    value: function api() {
-      return this.object;
+    /* Get the API */
+    value: function get() {
+      return this.apply({});
     }
   }, {
     key: 'apply',
 
     /* Private: Applies the API to any object */
-    value: function apply(_this) {
-      _import2['default'].forEach(_this.set(_this), function (item, key) {
+    value: function apply(object) {
+      var _this = this.context;
+      _import2['default'].forEach(this.set(), function (item, key) {
         switch (key) {
           case 'i18n':
             _import2['default'].forOwn(item, function (api, subkey) {
-              if (!this.object[subkey]) {
-                if (subkey === this.options.api.global) this.object[subkey] = api.bind(_this);else this.object[this.options.api.global][subkey] = api.bind(_this);
+              if (!object[subkey]) {
+                if (subkey === this.options.api.global) object[subkey] = api.bind(_this);else object[this.options.api.global][subkey] = api.bind(_this);
               }
             }, this);
             break;
           case 'l10n':
             _import2['default'].forOwn(item, function (api, subkey) {
-              if (!this.object[subkey]) {
-                if (subkey === this.options.api.localize) this.object[subkey] = api.bind(_this);
+              if (!object[subkey]) {
+                if (subkey === this.options.api.localize) object[subkey] = api.bind(_this);
               }
             }, this);
             break;
         }
       }, this);
-      debug('API exists:', _import2['default'].has(this.object, this.options.api.global) && _import2['default'].has(this.object, this.options.api.localize));
+      debug('API exists:', _import2['default'].has(object, this.options.api.global) && _import2['default'].has(object, this.options.api.localize));
+      return object;
     }
   }]);
 
@@ -303,7 +304,8 @@ exports['default'] = function () {
   return {
     main: function main() {
       var object = arguments[0] || arguments[1] || {};
-      this.api = new API(object, this);
+      debug('object exists:', !!object);
+      this.api = new API(this).apply(object);
     },
     'package': _import2['default'].merge({
       type: 'api'
