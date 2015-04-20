@@ -38,8 +38,6 @@ var API = (function () {
 
     /* Sets the API*/
     value: function set() {
-      var _this2 = this;
-
       var _this = this.context;
       var i18n = function i18n() {};
       var l10n = function l10n() {};
@@ -225,7 +223,7 @@ var API = (function () {
        */
       i18n.locale = function (locale) {
         debug('fn:', 'i18n-locale');
-        return locale ? _this.header.setLocale(locale) : _this2.header.detectLocale();
+        return locale ? _this.header.setLocale(locale) : _this.header.detectLocale();
       };
 
       /**
