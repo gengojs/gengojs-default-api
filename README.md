@@ -40,14 +40,8 @@ The default api is already included in gengojs so you should not have to require
 ```
 ## Internal API
 
-`api()` returns the API object.
+None
 
-**Example**:
-
-```js
-// Context
-this.api.api();
-```
 ## Dependencies
 	
 * `getLocale(locale:String)` from class `Header`
@@ -76,7 +70,7 @@ SET DEBUG=default-api
 ### i18n(arg) 
 
 I18ns the arguments.
-Note: You can change ID for i18n. See Configuration.
+Note: You can change ID for i18n. See Options.
 
 **Parameters**
 
@@ -278,7 +272,7 @@ __.locale('ja')
 
 Localizes date, time and numbers.
 See [Tokei](https://github.com/iwatakeshi/tokei) for documentation.
-Note: You can change ID for l10n. See Configuration.
+Note: You can change ID for l10n. See Options.
 
 **Parameters**
 
@@ -288,12 +282,20 @@ Note: You can change ID for l10n. See Configuration.
 
 * * *
 
+## Reserved words
 
+There are a few reserved words in the API. These words are used for
+overriding purposes. See the example:
 
-
-
-
-
-
-
-
+```js
+// Using 'phrase' keyword:
+__({phrase:'Hello!'});
+// Using 'parser' keyword which
+// overrides the parser:
+// See https://github.com/iwatakeshi/gengojs-default-parser
+// for more details.
+__('Hello!', {parser:'format'});
+// Using 'locale' keyword which
+// overrides the locale:
+__('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', {parser:'format'});
+```
