@@ -27,7 +27,7 @@ app.use(gengo({
 	}
 },/*api()*/));
 ```
-The default api is already included in gengojs so you should not have to require it.
+The default API is already included in gengo.js so you should not have to require it.
 
 
 ## Options
@@ -44,10 +44,11 @@ None
 
 ## Dependencies
 	
-* `getLocale(locale:String)` from class `Header`
-* `setLocale(locale:String)` from class `Header`
-* `detectLocale(locale:String)` from class `Header`
+* `this.header.getLocale(locale:String)` from `Header` class
+* `this.header.setLocale(locale:String)` from `Header` class
+* `this.header.detectLocale(locale:String)` from `Header` class
 * `supported:Array` from `Header` options
+* `this.backend.catalog(locale:String)` from `Backend` class
 
 ## Debug
 
@@ -265,6 +266,32 @@ __.locale()
 // Asumming locale === 'en-us'
 // sets and returns 'ja'
 __.locale('ja')
+```
+
+### catalog(locale) 
+
+Returns the catalog.
+
+**Parameters**
+
+**locale**: `String`, The locale to get.
+
+**Returns**: `Object`, The catalog.
+
+**Example**:
+
+<h6>Get the entire catalog.</h6>
+
+```js
+
+// Returns the entire catalog
+__.catalog()
+```
+<h6>Set the locale and return the catalog.</h6>
+
+```js
+// Sets and returns the specified catalog
+__.catalog('en-us')
 ```
 
 
