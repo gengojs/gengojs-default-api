@@ -116,7 +116,7 @@ var API = (function () {
           args[_key] = arguments[_key];
         }
 
-        debug('fn:', 'i18n-globalize');
+        debug('process:', 'i18n:', 'globalize');
         return _this.parse.apply(_this, args);
       };
       /**
@@ -143,7 +143,7 @@ var API = (function () {
        * @public
        */
       i18n.language = function (id) {
-        debug('fn:', 'i18n-language');
+        debug('process:', 'i18n:', 'language');
         // de-normalize locale
         var locale = _this.header.getLocale();
         locale = locale.toLowerCase().replace('-', '_');
@@ -187,7 +187,7 @@ var API = (function () {
       * @public
       */
       i18n.languages = function (arg, supported) {
-        debug('fn:', 'i18n-languages');
+        debug('process:', 'i18n:', 'languages');
         var _supported = [];
         supported = (_import2['default'].isArray(arg) ? arg : supported) || options.header.supported;
         arg = _import2['default'].isArray(arg) ? undefined : arg;
@@ -223,7 +223,7 @@ var API = (function () {
        * @public
        */
       i18n.locale = function (locale) {
-        debug('fn:', 'i18n-locale');
+        debug('process:', 'i18n:', 'locale');
         return locale ? _this.header.setLocale(locale) : _this.header.detectLocale();
       };
 
@@ -233,8 +233,18 @@ var API = (function () {
        * @public
        */
       i18n.cldr = function () {
-        debug('fn:', 'i18n-cldr');
+        debug('process:', 'i18n:', 'cldr');
         return _cldr2['default'];
+      };
+
+      /**
+       * Returns the catalog
+       * @param  {String} locale The locale to find
+       * @return {Object}        The catalog
+       */
+      i18n.catalog = function (locale) {
+        debug('process:', 'i18n:', 'catalog');
+        return _this.backend.catalog(locale);
       };
 
       /**
@@ -251,7 +261,7 @@ var API = (function () {
           args[_key2] = arguments[_key2];
         }
 
-        debug('fn:', 'i18n-localize');
+        debug('process:', 'l10n:', 'localize');
         return _this.localize.apply(_this, args);
       };
       return {

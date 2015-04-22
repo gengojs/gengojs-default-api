@@ -326,3 +326,8 @@ __('Hello!', {parser:'format'});
 // overrides the locale:
 __('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', {parser:'format'});
 ```
+
+## Contribute
+
+Feel free to contribute or even fork the project. This plugin has been
+written in ES6 and can be seen under `lib/index.js`.
