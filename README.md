@@ -321,7 +321,7 @@ __({phrase:'Hello!'});
 // overrides the parser:
 // See https://github.com/iwatakeshi/gengojs-default-parser
 // for more details.
-__('Hello!', {parser:'format'});
+__('Hello!', {parser:'default'});
 // Using 'locale' keyword which
 // overrides the locale:
 __('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', {parser:'format'});
