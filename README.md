@@ -2,7 +2,7 @@
 
 The default API plugin for gengojs.
 
-This module will be used for the upcoming [gengo.js](https://github.com/iwatakeshi/gengojs) **1.0.0**.
+This module will be used for [gengo.js](https://github.com/iwatakeshi/gengojs).
 
 Note: The API examples defined are respect to the [default parser](https://github.com/iwatakeshi/gengojs-default-parser).
 
@@ -14,7 +14,7 @@ var gengo = require('gengojs');
 var api = require('gengojs-default-api');
 
 /* In whatever framework you are using: */
- 
+
 // I'll use express for an example
 // but it shouldn't matter
 
@@ -43,7 +43,7 @@ The default API is already included in gengo.js so you should not have to requir
 None
 
 ## Dependencies
-	
+
 * `this.header.getLocale(locale:String)` from `Header` class
 * `this.header.setLocale(locale:String)` from `Header` class
 * `this.header.detectLocale(locale:String)` from `Header` class
@@ -68,7 +68,7 @@ SET DEBUG=default-api
 
 * * *
 
-### i18n(arg) 
+### i18n(arg)
 
 I18ns the arguments.
 Note: You can change ID for i18n. See Options.
@@ -128,12 +128,12 @@ Note: The format parser uses Yahoo's [intl-messageformat](https://github.com/yah
 
 // Assuming the locale === 'en-us',
 // a basic phrase with message formatting
-// returns "You have 1,000 photos." 
+// returns "You have 1,000 photos."
 __('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', { n: 1000 });
 
 // a basic bracket phrase with message formatting
 // returns "You have 1,000 photos since Jan 1, 2015 9:33:04 AM."
-__('[You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}].since.date', 
+__('[You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}].since.date',
      { n:4000, d:new Date() });
 
 // a basic dot phrase with message formatting
@@ -141,7 +141,7 @@ __('[You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}].sinc
 __('pictures.since.date', { n:4000, d:new Date() });
 ```
 
-### language(id) 
+### language(id)
 
 Returns the name of the current locale.
 
@@ -194,7 +194,7 @@ __.language('ja');
 ```
 
 
-### languages(arg, supported) 
+### languages(arg, supported)
 
 Returns the names of the supported locale.
 
@@ -240,7 +240,7 @@ __.languages('ja', ['en', 'ja']);
 ```
 
 
-### locales(locale) 
+### locales(locale)
 
 Sets or gets the locale.
 
@@ -268,7 +268,7 @@ __.locale()
 __.locale('ja')
 ```
 
-### catalog(locale) 
+### catalog(locale)
 
 Returns the catalog.
 
@@ -295,7 +295,7 @@ __.catalog('en-us')
 ```
 
 
-### l10n(locale) 
+### l10n(locale)
 
 Localizes date, time and numbers.
 See [Tokei](https://github.com/iwatakeshi/tokei) for documentation.
