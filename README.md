@@ -1,6 +1,6 @@
 # gengojs-default-api
 
-The default API plugin for gengojs.
+The default API plugin for gengo.js.
 
 This module will be used for [gengo.js](https://github.com/iwatakeshi/gengojs).
 
