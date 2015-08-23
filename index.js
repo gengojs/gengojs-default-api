@@ -1,28 +1,28 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var _cldr = require('cldr');
 
-var _cldr2 = _interopRequireWildcard(_cldr);
+var _cldr2 = _interopRequireDefault(_cldr);
 
-var _import = require('lodash');
+var _lodash = require('lodash');
 
-var _import2 = _interopRequireWildcard(_import);
+var _lodash2 = _interopRequireDefault(_lodash);
 
-var _d = require('debug');
+var _debug = require('debug');
 
-var _d2 = _interopRequireWildcard(_d);
+var _debug2 = _interopRequireDefault(_debug);
 
-var debug = _d2['default']('default-api');
+var debug = (0, _debug2['default'])('default-api');
 /* Class API */
 
 var API = (function () {
@@ -33,16 +33,16 @@ var API = (function () {
     this.context = _this;
   }
 
+  /* Sets the API*/
+
   _createClass(API, [{
     key: 'set',
-
-    /* Sets the API*/
     value: function set() {
       var _this = this.context;
       var i18n = function i18n() {};
       var l10n = function l10n() {};
       var options = this.options.api;
-      _import2['default'].assign(options.header = {}, this.options.header);
+      _lodash2['default'].assign(options.header = {}, this.options.header);
       debug('options exists:', !!options);
       /**
       * @method i18n
@@ -112,11 +112,12 @@ var API = (function () {
       */
 
       i18n[options.global] = function () {
+        debug('process:', 'i18n:', 'globalize');
+
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
           args[_key] = arguments[_key];
         }
 
-        debug('process:', 'i18n:', 'globalize');
         return _this.parse.apply(_this, args);
       };
       /**
@@ -189,8 +190,8 @@ var API = (function () {
       i18n.languages = function (arg, supported) {
         debug('process:', 'i18n:', 'languages');
         var _supported = [];
-        supported = (_import2['default'].isArray(arg) ? arg : supported) || options.header.supported;
-        arg = _import2['default'].isArray(arg) ? undefined : arg;
+        supported = (_lodash2['default'].isArray(arg) ? arg : supported) || options.header.supported;
+        arg = _lodash2['default'].isArray(arg) ? undefined : arg;
         supported.forEach(function (locale) {
           arg = arg ? arg.toLowerCase() : _this.header.getLocale();
           arg = arg.replace('_', '-');
@@ -203,7 +204,7 @@ var API = (function () {
       };
 
       /**
-       * @method locales
+       * @method locale
        * @description Sets or gets the locale.
        * @param  {String} locale The locale to set or get.
        *
@@ -225,6 +226,23 @@ var API = (function () {
       i18n.locale = function (locale) {
         debug('process:', 'i18n:', 'locale');
         return locale ? _this.header.setLocale(locale) : _this.header.detectLocale();
+      };
+
+      /**
+       * @method locales
+       * @description Returns the locales.
+       *
+       * @example <caption>Get the current locale.</caption>
+       *
+       * // Returns the locales from the catalog
+       * __.locale()
+       *
+       * @return {String} The locale.
+       * @public
+       */
+      i18n.locales = function () {
+        debug('process:', 'i18n:', 'locales');
+        return Object.keys(_this.backend.catalog());
       };
 
       /**
@@ -257,11 +275,12 @@ var API = (function () {
        * @public
        */
       l10n[options.localize] = function () {
+        debug('process:', 'l10n:', 'localize');
+
         for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
           args[_key2] = arguments[_key2];
         }
 
-        debug('process:', 'l10n:', 'localize');
         return _this.localize.apply(_this, args);
       };
       return {
@@ -269,30 +288,30 @@ var API = (function () {
         l10n: l10n
       };
     }
-  }, {
-    key: 'get',
 
     /* Get the API */
+  }, {
+    key: 'get',
     value: function get() {
       return this.apply({});
     }
-  }, {
-    key: 'apply',
 
     /* Private: Applies the API to any object */
+  }, {
+    key: 'apply',
     value: function apply(object) {
       var _this = this.context;
-      _import2['default'].forEach(this.set(), function (item, key) {
+      _lodash2['default'].forEach(this.set(), function (item, key) {
         switch (key) {
           case 'i18n':
-            _import2['default'].forOwn(item, function (api, subkey) {
+            _lodash2['default'].forOwn(item, function (api, subkey) {
               if (!object[subkey]) {
                 if (subkey === this.options.api.global) object[subkey] = api.bind(_this);else object[this.options.api.global][subkey] = api.bind(_this);
               }
             }, this);
             break;
           case 'l10n':
-            _import2['default'].forOwn(item, function (api, subkey) {
+            _lodash2['default'].forOwn(item, function (api, subkey) {
               if (!object[subkey]) {
                 if (subkey === this.options.api.localize) object[subkey] = api.bind(_this);
               }
@@ -300,7 +319,7 @@ var API = (function () {
             break;
         }
       }, this);
-      debug('API exists:', _import2['default'].has(object, this.options.api.global) && _import2['default'].has(object, this.options.api.localize));
+      debug('API exists:', _lodash2['default'].has(object, this.options.api.global) && _lodash2['default'].has(object, this.options.api.localize));
       return object;
     }
   }]);
@@ -316,7 +335,7 @@ exports['default'] = function () {
       debug('object exists:', !!object);
       this.api = new API(this).apply(object);
     },
-    'package': _import2['default'].merge({
+    'package': _lodash2['default'].merge({
       type: 'api'
     }, require('./package')),
     defaults: require('./defaults')
