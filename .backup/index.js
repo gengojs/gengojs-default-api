@@ -242,7 +242,10 @@ class API {
         l10n: l10n
       };
     }
-    /* Get the API */
+    /**
+     * Returns the API
+     * @returns The API
+     */
   get() {
       log.debug(`class: ${API.name}`, `process: get`);
       return this.apply({});

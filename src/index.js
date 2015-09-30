@@ -277,7 +277,10 @@ var API = (function () {
       };
     }
 
-    /* Get the API */
+    /**
+     * Returns the API
+     * @returns The API
+     */
   }, {
     key: 'get',
     value: function get() {
