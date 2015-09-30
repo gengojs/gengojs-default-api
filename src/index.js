@@ -6,6 +6,8 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+exports['default'] = api;
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -18,19 +20,21 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _debug = require('debug');
+var _gengojsDebug = require('gengojs-debug');
 
-var _debug2 = _interopRequireDefault(_debug);
+var _gengojsDebug2 = _interopRequireDefault(_gengojsDebug);
 
-var debug = (0, _debug2['default'])('default-api');
+var log = (0, _gengojsDebug2['default'])('api');
+
 /* Class API */
 
 var API = (function () {
-  function API(_this) {
+  function API(core) {
     _classCallCheck(this, API);
 
-    this.options = _this.options;
-    this.context = _this;
+    log.debug('class: ' + API.name, 'process: constructor');
+    this.options = core.options;
+    this.context = core;
   }
 
   /* Sets the API*/
@@ -38,12 +42,13 @@ var API = (function () {
   _createClass(API, [{
     key: 'set',
     value: function set() {
-      var _this = this.context;
+      log.debug('class: ' + API.name, 'process: set');
+      var core = this.context;
       var i18n = function i18n() {};
       var l10n = function l10n() {};
       var options = this.options.api;
       _lodash2['default'].assign(options.header = {}, this.options.header);
-      debug('options exists:', !!options);
+      (0, _gengojsDebug2['default'])('api', 'info', 'options exists:', !!options);
       /**
       * @method i18n
       * @description I18ns the arguments.
@@ -89,19 +94,19 @@ var API = (function () {
       * 
       * @example <caption>All notations with Message Format.</caption>
       * // See '{@link https://github.com/thetalecrafter/
-       message-format|message-format}' for documentation.
+      message-format|message-format}' for documentation.
       * // See updated docs at README:
       * 
       * // Assuming the locale === 'en-us',
       * // a basic phrase with message formatting
       * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
       * __('You took {n,number} pictures since 
-       {d,date} {d,time}', { n:4000, d:new Date() });
+      {d,date} {d,time}', { n:4000, d:new Date() });
       *
       * // a basic bracket phrase with message formatting
       * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
       * __('[You took {n, numbers} pictures].since.date', 
-       { n:4000, d:new Date() });
+      { n:4000, d:new Date() });
       *
       * // a basic dot phrase with message formatting
       * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
@@ -112,13 +117,13 @@ var API = (function () {
       */
 
       i18n[options.global] = function () {
-        debug('process:', 'i18n:', 'globalize');
+        log.debug('class: ' + API.name, 'process: i18n');
 
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
           args[_key] = arguments[_key];
         }
 
-        return _this.parse.apply(_this, args);
+        return core.parse.apply(core, args);
       };
       /**
        * @method language
@@ -144,9 +149,9 @@ var API = (function () {
        * @public
        */
       i18n.language = function (id) {
-        debug('process:', 'i18n:', 'language');
+        log.debug('class: ' + API.name, 'process: i18n.languge');
         // de-normalize locale
-        var locale = _this.header.getLocale();
+        var locale = core.header.getLocale();
         locale = locale.toLowerCase().replace('-', '_');
         // denormalize id
         id = id ? id.toLowerCase().replace('_', '-') : locale;
@@ -178,7 +183,7 @@ var API = (function () {
       * __.languages(['en', 'ja']);
       *
       * @example <caption>Override the supported locales 
-       and get the languages in another locale.</caption>
+      and get the languages in another locale.</caption>
       *
       * // Assuming locale === 'en-us'
       * // returns ['英語', '日本語']
@@ -188,18 +193,18 @@ var API = (function () {
       * @public
       */
       i18n.languages = function (arg, supported) {
-        debug('process:', 'i18n:', 'languages');
+        log.debug('class: ' + API.name, 'process: i18n.languges');
         var _supported = [];
         supported = (_lodash2['default'].isArray(arg) ? arg : supported) || options.header.supported;
         arg = _lodash2['default'].isArray(arg) ? undefined : arg;
         supported.forEach(function (locale) {
-          arg = arg ? arg.toLowerCase() : _this.header.getLocale();
+          arg = arg ? arg.toLowerCase() : core.header.getLocale();
           arg = arg.replace('_', '-');
           // de-normalize locales
           locale = locale.toLowerCase().replace('-', '_');
           // store the languages
           _supported.push(_cldr2['default'].extractLanguageDisplayNames(arg)[locale]);
-        }, _this);
+        }, core);
         return _supported;
       };
 
@@ -224,25 +229,8 @@ var API = (function () {
        * @public
        */
       i18n.locale = function (locale) {
-        debug('process:', 'i18n:', 'locale');
-        return locale ? _this.header.setLocale(locale) : _this.header.detectLocale();
-      };
-
-      /**
-       * @method locales
-       * @description Returns the locales.
-       *
-       * @example <caption>Get the current locale.</caption>
-       *
-       * // Returns the locales from the catalog
-       * __.locale()
-       *
-       * @return {String} The locale.
-       * @public
-       */
-      i18n.locales = function () {
-        debug('process:', 'i18n:', 'locales');
-        return Object.keys(_this.backend.catalog());
+        (0, _gengojsDebug2['default'])('api', 'debug', 'class: ' + API.name, 'process: i18n.locale');
+        return locale ? core.header.setLocale(locale) : core.header.detectLocale ? core.header.detectLocale() : core.header.getLocale();
       };
 
       /**
@@ -251,7 +239,7 @@ var API = (function () {
        * @public
        */
       i18n.cldr = function () {
-        debug('process:', 'i18n:', 'cldr');
+        log.debug('class: ' + API.name, 'process: i18n.cldr');
         return _cldr2['default'];
       };
 
@@ -261,8 +249,8 @@ var API = (function () {
        * @return {Object}        The catalog
        */
       i18n.catalog = function (locale) {
-        debug('process:', 'i18n:', 'catalog');
-        return _this.backend.catalog(locale);
+        log.debug('class: ' + API.name, 'process: i18n.catalog');
+        return core.backend.catalog(locale);
       };
 
       /**
@@ -275,13 +263,13 @@ var API = (function () {
        * @public
        */
       l10n[options.localize] = function () {
-        debug('process:', 'l10n:', 'localize');
+        log.debug('class: ' + API.name, 'process: i10n');
 
         for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
           args[_key2] = arguments[_key2];
         }
 
-        return _this.localize.apply(_this, args);
+        return core.localize.apply(core, args);
       };
       return {
         i18n: i18n,
@@ -293,33 +281,38 @@ var API = (function () {
   }, {
     key: 'get',
     value: function get() {
+      log.debug('class: ' + API.name, 'process: get');
       return this.apply({});
     }
 
-    /* Private: Applies the API to any object */
+    /* 
+     * Applies the API to any object
+     * @private
+     */
   }, {
     key: 'apply',
     value: function apply(object) {
-      var _this = this.context;
+      log.debug('class: ' + API.name, 'process: apply');
+      var core = this.context;
       _lodash2['default'].forEach(this.set(), function (item, key) {
         switch (key) {
           case 'i18n':
             _lodash2['default'].forOwn(item, function (api, subkey) {
               if (!object[subkey]) {
-                if (subkey === this.options.api.global) object[subkey] = api.bind(_this);else object[this.options.api.global][subkey] = api.bind(_this);
+                if (subkey === this.options.api.global) object[subkey] = api.bind(core);else object[this.options.api.global][subkey] = api.bind(core);
               }
             }, this);
             break;
           case 'l10n':
             _lodash2['default'].forOwn(item, function (api, subkey) {
               if (!object[subkey]) {
-                if (subkey === this.options.api.localize) object[subkey] = api.bind(_this);
+                if (subkey === this.options.api.localize) object[subkey] = api.bind(core);
               }
             }, this);
             break;
         }
       }, this);
-      debug('API exists:', _lodash2['default'].has(object, this.options.api.global) && _lodash2['default'].has(object, this.options.api.localize));
+      log.debug('class: ' + API.name, 'API exists:', _lodash2['default'].has(object, this.options.api.global) && _lodash2['default'].has(object, this.options.api.localize));
       return object;
     }
   }]);
@@ -327,19 +320,20 @@ var API = (function () {
   return API;
 })();
 
-exports['default'] = function () {
+function api() {
   'use strict';
   return {
-    main: function main() {
+    main: function ship() {
       var object = arguments[0] || arguments[1] || {};
-      debug('object exists:', !!object);
-      this.api = new API(this).apply(object);
+      log.debug('object exists:', !!object);
+      return new API(this).apply(object);
     },
     'package': _lodash2['default'].merge({
       type: 'api'
-    }, require('./package')),
-    defaults: require('./defaults')
+    }, require('../package')),
+    defaults: require('../defaults')
   };
-};
+}
 
 module.exports = exports['default'];
+//# sourceMappingURL=source maps/index.js.map

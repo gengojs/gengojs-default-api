@@ -240,7 +240,7 @@ __.languages('ja', ['en', 'ja']);
 ```
 
 
-### locales(locale)
+### locale(locale)
 
 Sets or gets the locale.
 
