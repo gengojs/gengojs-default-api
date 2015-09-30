@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>gengo.js/plugins/api</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/cayman.css">
+    <link rel="stylesheet" href="css/prism.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">gengo.js/plugins/api</h1>
+      <h2 class="project-tagline">The default router plugin for gengojs</h2><a href="https://github.com/gengojs/plugin-api" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/gengojs-default-api" target="_blank" class="btn">View on npm</a>
+    </section>
+    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
+      <div class="row">
+        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
+          <ul id="sidebar" class="nav nav-stacked fixed">
+            <li class="active"><a href="index.html">Main
+                <ul class="nav nav-stacked">
+                </ul></a></li>
+            <li><a href="index.js.html">index.js</a></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <section id="Main" class="readme"><h1>gengojs-default-api</h1>
+<p>The default API plugin for gengo.js.</p>
+<p><a href="https://travis-ci.org/gengojs/plugin-api"><img src="https://travis-ci.org/gengojs/plugin-api.svg?branch=master" alt="Build Status"></a></p>
+<p>This module will be used for <a href="https://github.com/gengojs/gengojs">gengo.js</a>.</p>
+<p>Note: The API examples defined are respect to the <a href="https://github.com/gengojs/plugin-parser">default parser</a>.</p>
+<p>An example usage with options is:</p>
+<pre><code class="language-js">
+var gengo = require('gengojs');
+var api = require('gengojs-default-api');
+
+/* In whatever framework you are using: */
+
+// I'll use express for an example
+// but it shouldn't matter
+
+var app = require('express')();
+app.use(gengo({
+   // Specify the type
+   // of option to modify
+    api:{
+        /* options */
+    }
+},/*api()*/));
+</code></pre>
+<p>The default API is already included in gengo.js so you should not have to require it.</p>
+<h2>Options</h2>
+<pre><code class="language-json">{
+    &quot;global&quot;:&quot;__&quot;,
+    &quot;localize&quot;:&quot;__l&quot;
+}
+</code></pre>
+<h2>Internal API</h2>
+<p>None</p>
+<h2>Dependencies</h2>
+<ul>
+<li><code>this.header.getLocale(locale:String)</code> from <code>Header</code> class</li>
+<li><code>this.header.setLocale(locale:String)</code> from <code>Header</code> class</li>
+<li><code>this.header.detectLocale(locale:String)</code> from <code>Header</code> class</li>
+<li><code>supported:Array</code> from <code>Header</code> options</li>
+<li><code>this.backend.catalog(locale:String)</code> from <code>Backend</code> class</li>
+</ul>
+<h2>Debug</h2>
+<p>Unix:</p>
+<pre><code class="language-bash">DEBUG=default-api
+</code></pre>
+<p>Windows:</p>
+<pre><code class="language-bash">SET DEBUG=default-api
+</code></pre>
+<h2>API</h2>
+<hr>
+<h3>i18n(arg)</h3>
+<p>I18ns the arguments.
+Note: You can change ID for i18n. See Options.</p>
+<p><strong>Parameters</strong></p>
+<p><strong>arg</strong>: <code>*</code>, The arguments to internationalize.</p>
+<p><strong>Returns</strong>: <code>String</code>, Then i18ned string.</p>
+<p><strong>Example</strong>:</p>
+<p>&lt;h6&gt;Phrase notation with default parser.&lt;/h6&gt;</p>
+<pre><code class="language-js">// Assuming the locale === 'ja',
+// a basic phrase returns 'こんにちは'
+__('Hello');
+
+// a basic phrase with sprintf returns 'Bob こんにちは'
+__('Hello %s', 'Bob');
+
+// a basic phrase with interpolation returns 'Bob こんにちは'
+ __('Hello {{name}}', {name:'Bob'});
+</code></pre>
+<p>&lt;h6&gt;Bracket notation with default parser.&lt;/h6&gt;</p>
+<pre><code class="language-js">// Assuming the locale === 'ja',
+// a basic bracket phrase returns 'おっす'
+__('[Hello].informal');
+
+// a basic bracket phrase with sprintf returns 'Bob おっす'
+__('[Hello %].informal', 'Bob');
+
+// a basic bracket phrase with interpolation returns 'Bob おっす'
+__('[Hello {{name}}].informal', {name:'Bob'});
+</code></pre>
+<p>&lt;h6&gt;Dot notation with default parser.&lt;/h6&gt;</p>
+<pre><code class="language-js">// Assuming the locale === 'ja',
+// a basic dot phrase returns 'おっす'
+__('greeting.hello.informal');
+
+// a basic dot phrase with sprintf returns 'Bob おっす'
+__('greeting.hello.person.informal', 'Bob');
+
+//a basic dot phrase with interpolation returns 'Bob おっす'
+__('greeting.hello.person.informal', {name:'Bob'});
+</code></pre>
+<p>&lt;h6&gt;All notations with Message Format.&lt;/h6&gt;</p>
+<p>Note: The format parser uses Yahoo's <a href="https://github.com/yahoo/intl-messageformat">intl-messageformat</a>.</p>
+<pre><code class="language-js">
+// Assuming the locale === 'en-us',
+// a basic phrase with message formatting
+// returns &quot;You have 1,000 photos.&quot;
+__('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', { n: 1000 });
+
+// a basic bracket phrase with message formatting
+// returns &quot;You have 1,000 photos since Jan 1, 2015 9:33:04 AM.&quot;
+__('[You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}].since.date',
+     { n:4000, d:new Date() });
+
+// a basic dot phrase with message formatting
+// returns &quot;You have 1,000 photos since Jan 1, 2015 9:33:04 AM.&quot;
+__('pictures.since.date', { n:4000, d:new Date() });
+</code></pre>
+<h3>language(id)</h3>
+<p>Returns the name of the current locale.</p>
+<p><strong>Parameters</strong></p>
+<p><strong>id</strong>: <code>string</code>, The locale to change.</p>
+<p><strong>Returns</strong>: <code>String</code>, Then i18ned string.</p>
+<p><strong>Example</strong>:</p>
+<p>&lt;h6&gt;Get the current language.&lt;/h6&gt;</p>
+<pre><code class="language-js">
+// assuming locale === 'en-us'
+// returns 'American English'
+__.languages();
+</code></pre>
+<p>&lt;h6&gt;Get the current language in another locale. &lt;/h6&gt;</p>
+<pre><code class="language-js">// assuming locale === 'en-us'
+// returns 'English'
+__.language('en');
+
+// returns 'Japanese'
+__.language('ja');
+</code></pre>
+<p><strong>Example</strong>:</p>
+<p>&lt;h6&gt;Get the current language.&lt;/h6&gt;</p>
+<pre><code class="language-js">
+// assuming locale === 'en-us'
+// returns 'American English'
+__.languages();
+</code></pre>
+<p>&lt;h6&gt;Get the current language in another locale. &lt;/h6&gt;</p>
+<pre><code class="language-js">// assuming locale === 'en-us'
+// returns 'English'
+__.language('en');
+
+// returns 'Japanese'
+__.language('ja');
+</code></pre>
+<h3>languages(arg, supported)</h3>
+<p>Returns the names of the supported locale.</p>
+<p><strong>Parameters</strong></p>
+<p><strong>arg</strong>: <code>String | Array</code>, The locale to change or the supported locales.</p>
+<p><strong>supported</strong>: <code>Array</code>, The supported locales.</p>
+<p><strong>Returns</strong>: <code>String</code>, Then i18ned string.</p>
+<p><strong>Example</strong>:</p>
+<p>&lt;h6&gt;Get the supported languages.&lt;/h6&gt;</p>
+<pre><code class="language-js">
+// Assuming locale === 'en-us'
+// returns ['American English', 'Japanese']
+__.lanugages();
+</code></pre>
+<p>&lt;h6&gt;Get the current languages in another locale. &lt;/h6&gt;</p>
+<pre><code class="language-js">// Assuming locale === 'en-us'
+// returns ['アメリカ英語', '日本語']
+__.languages('ja');
+</code></pre>
+<p>&lt;h6&gt;Override the supported locales.&lt;/h6&gt;</p>
+<pre><code class="language-js">// Assuming locale === 'en-us'
+// returns ['English', 'Japanese']
+__.languages(['en', 'ja']);
+</code></pre>
+<p>&lt;h6&gt;Override the supported locales and get the languages in another locale.&lt;/h6&gt;</p>
+<pre><code class="language-js">
+// Assuming locale === 'en-us'
+// returns ['英語', '日本語']
+__.languages('ja', ['en', 'ja']);
+</code></pre>
+<h3>locale(locale)</h3>
+<p>Sets or gets the locale.</p>
+<p><strong>Parameters</strong></p>
+<p><strong>locale</strong>: <code>String</code>, The locale to set or get.</p>
+<p><strong>Returns</strong>: <code>String</code>, The locale.</p>
+<p><strong>Example</strong>:</p>
+<p>&lt;h6&gt;Get the current locale.&lt;/h6&gt;</p>
+<pre><code class="language-js">
+// Assuming locale === 'en-us'
+// returns 'en-us'
+__.locale()
+</code></pre>
+<p>&lt;h6&gt;Set the locale.&lt;/h6&gt;</p>
+<pre><code class="language-js">// Asumming locale === 'en-us'
+// sets and returns 'ja'
+__.locale('ja')
+</code></pre>
+<h3>catalog(locale)</h3>
+<p>Returns the catalog.</p>
+<p><strong>Parameters</strong></p>
+<p><strong>locale</strong>: <code>String</code>, The locale to get.</p>
+<p><strong>Returns</strong>: <code>Object</code>, The catalog.</p>
+<p><strong>Example</strong>:</p>
+<p>&lt;h6&gt;Get the entire catalog.&lt;/h6&gt;</p>
+<pre><code class="language-js">
+// Returns the entire catalog
+__.catalog()
+</code></pre>
+<p>&lt;h6&gt;Set the locale and return the catalog.&lt;/h6&gt;</p>
+<pre><code class="language-js">// Sets and returns the specified catalog
+__.catalog('en-us')
+</code></pre>
+<h3>l10n(locale)</h3>
+<p>Localizes date, time and numbers.
+See <a href="https://github.com/iwatakeshi/tokei">Tokei</a> for documentation.
+Note: You can change ID for l10n. See Options.</p>
+<p><strong>Parameters</strong></p>
+<p><strong>locale</strong>: <code>String</code>, The locale to override.</p>
+<p><strong>Returns</strong>: <code>Tokei</code>, The context of Tokei.</p>
+<hr>
+<h2>Reserved words</h2>
+<p>There are a few reserved words in the API. These words are used for
+overriding purposes. See the example:</p>
+<pre><code class="language-js">// Using 'phrase' keyword:
+__({phrase:'Hello!'});
+// Using 'parser' keyword which
+// overrides the parser:
+// See https://github.com/iwatakeshi/gengojs-default-parser
+// for more details.
+__('Hello!', {parser:'default'});
+// Using 'locale' keyword which
+// overrides the locale:
+__('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', {parser:'format'});
+</code></pre>
+<h2>Contribute</h2>
+<p>Feel free to contribute or even fork the project. This plugin has been
+written in ES6 and can be seen under <code>lib/index.js</code>.</p>
+</section>
+          <div class="footer site-footer">
+            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
+            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/affix.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/scrollspy.js"></script>
+    <script src="js/prism.js"></script>
+    <script src="js/prism-bash.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('body').scrollspy({
+          target: ".bs-docs-sidebar",
+          offset: 40
+        });
+        $('#sidebar').affix({
+          offset:{
+            bottom:60,
+            top: 60
+          }
+        }) 
+      });
+    </script>
+  </body>
+</html>

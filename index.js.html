@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>gengo.js/plugins/api</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/cayman.css">
+    <link rel="stylesheet" href="css/prism.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">gengo.js/plugins/api</h1>
+      <h2 class="project-tagline">The default router plugin for gengojs</h2><a href="https://github.com/gengojs/plugin-api" target="_blank" class="btn">View on GitHub</a><a href="https://npmjs.com/package/gengojs-default-api" target="_blank" class="btn">View on npm</a>
+    </section>
+    <section data-spy="scroll" data-target=".scrollspy" class="main-content">
+      <div class="row">
+        <div class="col-md-3 col-xs-3 bs-docs-sidebar">
+          <ul id="sidebar" class="nav nav-stacked fixed">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="index.js.html">index.js
+                <ul class="nav nav-stacked">
+                  <li><a href="#API"><i class="alert alert-success"></i><span>API</span></a>
+                  </li>
+                  <li><a href="#set"><i class="alert alert-info"></i><span>set</span></a>
+                  </li>
+                  <li><a href="#language"><i class="alert alert-info"></i><span>language</span></a>
+                  </li>
+                  <li><a href="#languages"><i class="alert alert-success"></i><span>languages</span></a>
+                  </li>
+                  <li><a href="#locale"><i class="alert alert-success"></i><span>locale</span></a>
+                  </li>
+                  <li><a href="#cldr"><i class="alert alert-success"></i><span>cldr</span></a>
+                  </li>
+                  <li><a href="#catalog"><i class="alert alert-success"></i><span>catalog</span></a>
+                  </li>
+                  <li><a href="#get"><i class="alert alert-info"></i><span>get</span></a>
+                  </li>
+                </ul></a></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <section id="API">
+            <h1>API</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">class</div><span>&nbsp;</span><span>new API()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Class API</p></div>
+          <pre><code class="language-javascript">class API {
+  constructor(core) {
+      log.debug(`class: ${API.name}`, `process: constructor`);
+      this.options = core.options;
+      this.context = core;
+    }</code></pre>
+          <section id="set">
+            <h1>set</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>API.prototype.set()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Sets the API</p></div>
+          <pre><code class="language-javascript">set() {
+    log.debug(`class: ${API.name}`, `process: set`);
+    var core = this.context;
+    var i18n = function() {};
+    var l10n = function() {};
+    var options = this.options.api;
+    _.assign((options.header = {}), this.options.header);
+    debug('api', 'info', 'options exists:', !(!options));</code></pre>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>arg</td>
+                <td></td>
+                <td><p>The arguments to internationalize.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td><p>Then i18ned string.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>I18ns the arguments. Note: You can change ID for i18n. See Configuration.</p></div>
+          <pre><code class="language-javascript">i18n[options.global] = function(...args) {
+  log.debug(`class: ${API.name}`, `process: i18n`);
+  return core.parse.apply(core, args);
+};</code></pre>
+          <section id="language">
+            <h1>language</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>i18n.language()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>id</td>
+                <td>string</td>
+                <td><p>The locale to change.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td><p>Then i18ned string.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns the name of the current locale.</p></div>
+          <pre><code class="language-javascript">i18n.language = function(id) {
+  log.debug(`class: ${API.name}`, `process: i18n.languge`);
+  // de-normalize locale
+  var locale = core.header.getLocale();
+  locale = locale.toLowerCase().replace('-', '_');
+  // denormalize id
+  id = id ? id.toLowerCase().replace('_', '-') : locale;
+  // store the languages
+  return cldr.extractLanguageDisplayNames(locale)[id];
+};</code></pre>
+          <section id="languages">
+            <h1>languages</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>i18n.languages</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>arg</td>
+                <td>String, Array</td>
+                <td><p>The locale to change or the supported locales.</p></td>
+              </tr>
+              <tr>
+                <td>supported</td>
+                <td>Array</td>
+                <td><p>The supported locales.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td><p>Then i18ned string.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns the names of the supported locale.</p></div>
+          <pre><code class="language-javascript">i18n.languages = (arg, supported) =&gt; {
+  log.debug(`class: ${API.name}`, `process: i18n.languges`);
+  var _supported = [];
+  supported = (_.isArray(arg) ? arg : supported) ||
+    options.header.supported;
+  arg = _.isArray(arg) ? undefined : arg;
+  supported.forEach(locale =&gt; {
+    arg = arg ? arg.toLowerCase() :
+      core.header.getLocale();
+    arg = arg.replace('_', '-');
+    // de-normalize locales
+    locale = locale.toLowerCase().replace('-', '_');
+    // store the languages
+    _supported.push(cldr.extractLanguageDisplayNames(arg)[locale]);
+  }, core);
+  return _supported;
+};</code></pre>
+          <section id="locale">
+            <h1>locale</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>i18n.locale</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>locale</td>
+                <td>String</td>
+                <td><p>The locale to set or get.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td><p>The locale.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Sets or gets the locale.</p></div>
+          <pre><code class="language-javascript">i18n.locale = (locale) =&gt; {
+  debug('api', 'debug', `class: ${API.name}`, `process: i18n.locale`);
+  return locale ?
+    core.header.setLocale(locale) :
+    core.header.detectLocale ?
+    core.header.detectLocale() :
+    core.header.getLocale();
+};</code></pre>
+          <section id="cldr">
+            <h1>cldr</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>i18n.cldr</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Get the cldr.</p></div>
+          <pre><code class="language-javascript">i18n.cldr = () =&gt; {
+  log.debug(`class: ${API.name}`, `process: i18n.cldr`);
+  return cldr;
+};</code></pre>
+          <section id="catalog">
+            <h1>catalog</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>i18n.catalog</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>locale</td>
+                <td>String</td>
+                <td><p>The locale to find</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td><p>The catalog</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns the catalog</p></div>
+          <pre><code class="language-javascript">i18n.catalog = (locale) =&gt; {
+  log.debug(`class: ${API.name}`, `process: i18n.catalog`);
+  return core.backend.catalog(locale);
+};</code></pre>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>locale</td>
+                <td>String</td>
+                <td><p>The locale to override.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Tokei</td>
+                <td><p>The instance of Tokei.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Localizes date, time and numbers. See {@link <a href="https://github.com/iwatakeshi/tokei|Tokei}">https://github.com/iwatakeshi/tokei|Tokei}</a> for documentation.<br />Note: You can change ID for l10n. See Configuration.</p></div>
+          <pre><code class="language-javascript">l10n[options.localize] = function(...args) {
+  log.debug(`class: ${API.name}`, `process: i10n`);
+  return core.localize.apply(core, args);
+};
+return {
+  i18n: i18n,
+  l10n: l10n
+};
+    }</code></pre>
+          <section id="get">
+            <h1>get</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>get()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Returns the API<br />API</p></div>
+          <pre><code class="language-javascript">get() {
+    log.debug(`class: ${API.name}`, `process: get`);
+    return this.apply({});
+  }</code></pre>
+          <div class="footer site-footer">
+            <div class="span site-footer-owner"><a href="https://github.com/mr-doc/mr-doc-theme-cayman">Cayman</a> is maintained by <a href="https://github.com/iwatakeshi">iwatakeshi</a>.</div>
+            <div class="span site-footer-credits">This page was generated by <a href="https://github.com/mr-doc/mr-doc">Mr. Doc</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/affix.js"></script>
+    <script src="js/dropdown.js"></script>
+    <script src="js/scrollspy.js"></script>
+    <script src="js/prism.js"></script>
+    <script src="js/prism-bash.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('body').scrollspy({
+          target: ".bs-docs-sidebar",
+          offset: 40
+        });
+        $('#sidebar').affix({
+          offset:{
+            bottom:60,
+            top: 60
+          }
+        }) 
+      });
+    </script>
+  </body>
+</html>
