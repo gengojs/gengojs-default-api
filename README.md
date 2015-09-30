@@ -2,9 +2,11 @@
 
 The default API plugin for gengo.js.
 
-This module will be used for [gengo.js](https://github.com/iwatakeshi/gengojs).
+[![Build Status](https://travis-ci.org/gengojs/plugin-api.svg?branch=master)](https://travis-ci.org/gengojs/plugin-api)
 
-Note: The API examples defined are respect to the [default parser](https://github.com/iwatakeshi/gengojs-default-parser).
+This module will be used for [gengo.js](https://github.com/gengojs/gengojs).
+
+Note: The API examples defined are respect to the [default parser](https://github.com/gengojs/plugin-parser).
 
 An example usage with options is:
 

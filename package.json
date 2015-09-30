@@ -4,7 +4,7 @@
   "description": "The default router plugin for gengojs",
   "main": "src/index.js",
   "scripts": {
-    "test": "grunt && mocha ./test/*.js"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
