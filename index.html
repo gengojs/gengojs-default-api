@@ -51,6 +51,8 @@ app.use(gengo({
 },/*api()*/));
 </code></pre>
 <p>The default API is already included in gengo.js so you should not have to require it.</p>
+<h2>Documentation</h2>
+<p>See <a href="https://gengojs.github.io/plugin-api">documentation</a></p>
 <h2>Options</h2>
 <pre><code class="language-json">{
     &quot;global&quot;:&quot;__&quot;,
@@ -63,7 +65,7 @@ app.use(gengo({
 <ul>
 <li><code>this.header.getLocale(locale:String)</code> from <code>Header</code> class</li>
 <li><code>this.header.setLocale(locale:String)</code> from <code>Header</code> class</li>
-<li><code>this.header.detectLocale(locale:String)</code> from <code>Header</code> class</li>
+<li><code>this.header.detectLocale(locale:String)</code> from <code>Header</code> class (optional)</li>
 <li><code>supported:Array</code> from <code>Header</code> options</li>
 <li><code>this.backend.catalog(locale:String)</code> from <code>Backend</code> class</li>
 </ul>
@@ -74,169 +76,6 @@ app.use(gengo({
 <p>Windows:</p>
 <pre><code class="language-bash">SET DEBUG=default-api
 </code></pre>
-<h2>API</h2>
-<hr>
-<h3>i18n(arg)</h3>
-<p>I18ns the arguments.
-Note: You can change ID for i18n. See Options.</p>
-<p><strong>Parameters</strong></p>
-<p><strong>arg</strong>: <code>*</code>, The arguments to internationalize.</p>
-<p><strong>Returns</strong>: <code>String</code>, Then i18ned string.</p>
-<p><strong>Example</strong>:</p>
-<p>&lt;h6&gt;Phrase notation with default parser.&lt;/h6&gt;</p>
-<pre><code class="language-js">// Assuming the locale === 'ja',
-// a basic phrase returns 'こんにちは'
-__('Hello');
-
-// a basic phrase with sprintf returns 'Bob こんにちは'
-__('Hello %s', 'Bob');
-
-// a basic phrase with interpolation returns 'Bob こんにちは'
- __('Hello {{name}}', {name:'Bob'});
-</code></pre>
-<p>&lt;h6&gt;Bracket notation with default parser.&lt;/h6&gt;</p>
-<pre><code class="language-js">// Assuming the locale === 'ja',
-// a basic bracket phrase returns 'おっす'
-__('[Hello].informal');
-
-// a basic bracket phrase with sprintf returns 'Bob おっす'
-__('[Hello %].informal', 'Bob');
-
-// a basic bracket phrase with interpolation returns 'Bob おっす'
-__('[Hello {{name}}].informal', {name:'Bob'});
-</code></pre>
-<p>&lt;h6&gt;Dot notation with default parser.&lt;/h6&gt;</p>
-<pre><code class="language-js">// Assuming the locale === 'ja',
-// a basic dot phrase returns 'おっす'
-__('greeting.hello.informal');
-
-// a basic dot phrase with sprintf returns 'Bob おっす'
-__('greeting.hello.person.informal', 'Bob');
-
-//a basic dot phrase with interpolation returns 'Bob おっす'
-__('greeting.hello.person.informal', {name:'Bob'});
-</code></pre>
-<p>&lt;h6&gt;All notations with Message Format.&lt;/h6&gt;</p>
-<p>Note: The format parser uses Yahoo's <a href="https://github.com/yahoo/intl-messageformat">intl-messageformat</a>.</p>
-<pre><code class="language-js">
-// Assuming the locale === 'en-us',
-// a basic phrase with message formatting
-// returns &quot;You have 1,000 photos.&quot;
-__('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', { n: 1000 });
-
-// a basic bracket phrase with message formatting
-// returns &quot;You have 1,000 photos since Jan 1, 2015 9:33:04 AM.&quot;
-__('[You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}].since.date',
-     { n:4000, d:new Date() });
-
-// a basic dot phrase with message formatting
-// returns &quot;You have 1,000 photos since Jan 1, 2015 9:33:04 AM.&quot;
-__('pictures.since.date', { n:4000, d:new Date() });
-</code></pre>
-<h3>language(id)</h3>
-<p>Returns the name of the current locale.</p>
-<p><strong>Parameters</strong></p>
-<p><strong>id</strong>: <code>string</code>, The locale to change.</p>
-<p><strong>Returns</strong>: <code>String</code>, Then i18ned string.</p>
-<p><strong>Example</strong>:</p>
-<p>&lt;h6&gt;Get the current language.&lt;/h6&gt;</p>
-<pre><code class="language-js">
-// assuming locale === 'en-us'
-// returns 'American English'
-__.languages();
-</code></pre>
-<p>&lt;h6&gt;Get the current language in another locale. &lt;/h6&gt;</p>
-<pre><code class="language-js">// assuming locale === 'en-us'
-// returns 'English'
-__.language('en');
-
-// returns 'Japanese'
-__.language('ja');
-</code></pre>
-<p><strong>Example</strong>:</p>
-<p>&lt;h6&gt;Get the current language.&lt;/h6&gt;</p>
-<pre><code class="language-js">
-// assuming locale === 'en-us'
-// returns 'American English'
-__.languages();
-</code></pre>
-<p>&lt;h6&gt;Get the current language in another locale. &lt;/h6&gt;</p>
-<pre><code class="language-js">// assuming locale === 'en-us'
-// returns 'English'
-__.language('en');
-
-// returns 'Japanese'
-__.language('ja');
-</code></pre>
-<h3>languages(arg, supported)</h3>
-<p>Returns the names of the supported locale.</p>
-<p><strong>Parameters</strong></p>
-<p><strong>arg</strong>: <code>String | Array</code>, The locale to change or the supported locales.</p>
-<p><strong>supported</strong>: <code>Array</code>, The supported locales.</p>
-<p><strong>Returns</strong>: <code>String</code>, Then i18ned string.</p>
-<p><strong>Example</strong>:</p>
-<p>&lt;h6&gt;Get the supported languages.&lt;/h6&gt;</p>
-<pre><code class="language-js">
-// Assuming locale === 'en-us'
-// returns ['American English', 'Japanese']
-__.lanugages();
-</code></pre>
-<p>&lt;h6&gt;Get the current languages in another locale. &lt;/h6&gt;</p>
-<pre><code class="language-js">// Assuming locale === 'en-us'
-// returns ['アメリカ英語', '日本語']
-__.languages('ja');
-</code></pre>
-<p>&lt;h6&gt;Override the supported locales.&lt;/h6&gt;</p>
-<pre><code class="language-js">// Assuming locale === 'en-us'
-// returns ['English', 'Japanese']
-__.languages(['en', 'ja']);
-</code></pre>
-<p>&lt;h6&gt;Override the supported locales and get the languages in another locale.&lt;/h6&gt;</p>
-<pre><code class="language-js">
-// Assuming locale === 'en-us'
-// returns ['英語', '日本語']
-__.languages('ja', ['en', 'ja']);
-</code></pre>
-<h3>locale(locale)</h3>
-<p>Sets or gets the locale.</p>
-<p><strong>Parameters</strong></p>
-<p><strong>locale</strong>: <code>String</code>, The locale to set or get.</p>
-<p><strong>Returns</strong>: <code>String</code>, The locale.</p>
-<p><strong>Example</strong>:</p>
-<p>&lt;h6&gt;Get the current locale.&lt;/h6&gt;</p>
-<pre><code class="language-js">
-// Assuming locale === 'en-us'
-// returns 'en-us'
-__.locale()
-</code></pre>
-<p>&lt;h6&gt;Set the locale.&lt;/h6&gt;</p>
-<pre><code class="language-js">// Asumming locale === 'en-us'
-// sets and returns 'ja'
-__.locale('ja')
-</code></pre>
-<h3>catalog(locale)</h3>
-<p>Returns the catalog.</p>
-<p><strong>Parameters</strong></p>
-<p><strong>locale</strong>: <code>String</code>, The locale to get.</p>
-<p><strong>Returns</strong>: <code>Object</code>, The catalog.</p>
-<p><strong>Example</strong>:</p>
-<p>&lt;h6&gt;Get the entire catalog.&lt;/h6&gt;</p>
-<pre><code class="language-js">
-// Returns the entire catalog
-__.catalog()
-</code></pre>
-<p>&lt;h6&gt;Set the locale and return the catalog.&lt;/h6&gt;</p>
-<pre><code class="language-js">// Sets and returns the specified catalog
-__.catalog('en-us')
-</code></pre>
-<h3>l10n(locale)</h3>
-<p>Localizes date, time and numbers.
-See <a href="https://github.com/iwatakeshi/tokei">Tokei</a> for documentation.
-Note: You can change ID for l10n. See Options.</p>
-<p><strong>Parameters</strong></p>
-<p><strong>locale</strong>: <code>String</code>, The locale to override.</p>
-<p><strong>Returns</strong>: <code>Tokei</code>, The context of Tokei.</p>
-<hr>
 <h2>Reserved words</h2>
 <p>There are a few reserved words in the API. These words are used for
 overriding purposes. See the example:</p>
