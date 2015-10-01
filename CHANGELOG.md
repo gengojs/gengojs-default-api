@@ -1,3 +1,24 @@
+0.0.3 / 2015-09-30
+==================
+
+  * Release v0.0.3.
+  * Update
+    Fixed links in comments.
+  * Update
+    Updated readme.
+  * Update
+    Added change log.
+  * Update
+    Update yml
+  * Update
+    Updated package.
+    Updated readme.
+  * Update
+    Updated package.
+    Updated core.
+    Updated debug.
+    Replaced grunt with gulp.
+
 0.0.2 / 2015-08-23
 ==================
 
@@ -24,7 +45,7 @@
     Updated readme
     Build
   * Update
-    Fixes [#2](https://github.com/iwatakeshi/gengojs-default-api/issues/2)
+    Fixes [#2](https://github.com/gengojs/plugin-api/issues/2)
     Updated readme
     Updated package.json
 
@@ -57,7 +78,7 @@
   * Update
     Handler class and API are now combined class. This will reduce the
     amount of plugins.
-    Updated reamde which fixes [#1](https://github.com/iwatakeshi/gengojs-default-api/issues/1)
+    Updated reamde which fixes [#1](https://github.com/gengojs/plugin-api/issues/1)
 
 0.0.1-beta.4 / 2015-04-12
 =========================
