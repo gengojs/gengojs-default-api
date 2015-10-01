@@ -1,6 +1,6 @@
 {
   "name": "gengojs-default-api",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The default router plugin for gengojs",
   "main": "src/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/gengojs/plugin-api/issues"
   },
-  "keywords":[
+  "keywords": [
     "gengojs-plugin"
   ],
   "homepage": "https://github.com/gengojs/plugin-api",
