@@ -60,13 +60,15 @@ None
 Unix:
 
 ```bash
-DEBUG=default-api
+DEBUG=gengo.api
 ```
 Windows:
 
 ```bash
-SET DEBUG=default-api
+SET DEBUG=gengo.api
 ```
+
+See [gengojs-debug](https://github.com/gengojs/gengojs-debug) for usage.
 
 ## Reserved words
 
