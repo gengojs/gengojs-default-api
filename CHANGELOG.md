@@ -1,3 +1,12 @@
+0.0.4 / 2015-09-30
+==================
+
+  * Release v0.0.4.
+  * Update
+    Updated readme.
+  * Update
+    Updated change log.
+
 0.0.3 / 2015-09-30
 ==================
 
