@@ -93,8 +93,8 @@ var API = (function () {
       *
       * 
       * @example <caption>All notations with Message Format.</caption>
-      * // See '{@link https://github.com/thetalecrafter/
-      message-format|message-format}' for documentation.
+      * // See [message-format](https://github.com/thetalecrafter/
+      message-format) for documentation.
       * // See updated docs at README:
       * 
       * // Assuming the locale === 'en-us',
@@ -256,7 +256,7 @@ var API = (function () {
       /**
        * @method l10n
        * @description Localizes date, time and numbers.
-       * See {@link https://github.com/iwatakeshi/tokei|Tokei} for documentation.
+       * See [Tokei](https://github.com/iwatakeshi/tokei) for documentation.
        * Note: You can change ID for l10n. See Configuration.
        * @param  {String}  locale The locale to override.
        * @return {Tokei} The instance of Tokei.
