@@ -1,6 +1,6 @@
 {
   "name": "gengojs-default-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The default router plugin for gengojs",
   "main": "src/index.js",
   "scripts": {
