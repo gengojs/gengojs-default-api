@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/gengojs/plugin-api/issues"
   },
+  "keywords":[
+    "gengojs-plugin"
+  ],
   "homepage": "https://github.com/gengojs/plugin-api",
   "devDependencies": {
     "chai": "^3.2.0",
