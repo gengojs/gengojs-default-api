@@ -31,6 +31,8 @@
 <p><a href="https://travis-ci.org/gengojs/plugin-api"><img src="https://travis-ci.org/gengojs/plugin-api.svg?branch=master" alt="Build Status"></a></p>
 <p>This module will be used for <a href="https://github.com/gengojs/gengojs">gengo.js</a>.</p>
 <p>Note: The API examples defined are respect to the <a href="https://github.com/gengojs/plugin-parser">default parser</a>.</p>
+<h2>Documentation</h2>
+<p>See <a href="https://gengojs.github.io/plugin-api">documentation</a></p>
 <p>An example usage with options is:</p>
 <pre><code class="language-javascript">
 var gengo = require('gengojs');
@@ -50,25 +52,43 @@ app.use(gengo({
     }
 },/*api()*/));
 </code></pre>
-<p>The default API is already included in gengo.js so you should not have to require it.</p>
-<h2>Documentation</h2>
-<p>See <a href="https://gengojs.github.io/plugin-api">documentation</a></p>
+<h2>Internal API</h2>
+<p>Not Applicable</p>
+<h2>Dependencies</h2>
+<ul>
+<li><code>this.header.getLocale(locale:String)</code> from <code>Header</code>
+<ul>
+<li>Should return a string of the current locale.</li>
+</ul>
+</li>
+<li><code>this.header.setLocale(locale:String)</code> from <code>Header</code>
+<ul>
+<li>Should set the locale.</li>
+</ul>
+</li>
+<li><code>this.header.detectLocale(locale:String)</code> from <code>Header</code> (optional)
+<ul>
+<li>Should detect the current locale by parsing the
+Accept-Language, domains, sub-domains, queries, URLs, and cookies.</li>
+</ul>
+</li>
+<li><code>supported:Array</code> from <code>Header</code> options
+<ul>
+<li>Should be an array of supported locales.</li>
+</ul>
+</li>
+<li><code>this.backend.catalog(locale:String)</code> from <code>Backend</code>
+<ul>
+<li>Should return an object containing the dictionaries for each locale.</li>
+</ul>
+</li>
+</ul>
 <h2>Options</h2>
 <pre><code class="language-json">{
     &quot;global&quot;:&quot;__&quot;,
     &quot;localize&quot;:&quot;__l&quot;
 }
 </code></pre>
-<h2>Internal API</h2>
-<p>None</p>
-<h2>Dependencies</h2>
-<ul>
-<li><code>this.header.getLocale(locale:String)</code> from <code>Header</code> class</li>
-<li><code>this.header.setLocale(locale:String)</code> from <code>Header</code> class</li>
-<li><code>this.header.detectLocale(locale:String)</code> from <code>Header</code> class (optional)</li>
-<li><code>supported:Array</code> from <code>Header</code> options</li>
-<li><code>this.backend.catalog(locale:String)</code> from <code>Backend</code> class</li>
-</ul>
 <h2>Debug</h2>
 <p>Unix:</p>
 <pre><code class="language-bash">DEBUG=gengo.api

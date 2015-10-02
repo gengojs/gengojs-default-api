@@ -84,7 +84,53 @@
               <tr>
                 <td>arg</td>
                 <td></td>
-                <td><p>The arguments to internationalize.</p></td>
+                <td><p>The arguments to internationalize. </p><p>####Phrase notation with default parser.</p><pre><code class="lang-javascript">// Assuming the locale === &#39;ja&#39;,
+// a basic phrase returns &#39;こんにちは&#39;
+__(&#39;Hello&#39;);
+
+// a basic phrase with sprintf returns &#39;Bob こんにちは&#39;
+__(&#39;Hello %s&#39;, &#39;Bob&#39;);
+
+// a basic phrase with interpolation returns &#39;Bob こんにちは&#39;
+ __(&#39;Hello {{name}}&#39;, {name:&#39;Bob&#39;});
+</code></pre>
+<p>####Bracket notation with default parser.</p><pre><code class="lang-javascript">// Assuming the locale === &#39;ja&#39;,
+// a basic bracket phrase returns &#39;おっす&#39;
+__(&#39;[Hello].informal&#39;);
+
+// a basic bracket phrase with sprintf returns &#39;Bob おっす&#39;
+__(&#39;[Hello %].informal&#39;, &#39;Bob&#39;);
+
+// a basic bracket phrase with interpolation returns &#39;Bob おっす&#39;
+__(&#39;[Hello {{name}}].informal&#39;, {name:&#39;Bob&#39;});
+</code></pre>
+<p>####Dot notation with default parser.</p><pre><code class="lang-javascript">// Assuming the locale === &#39;ja&#39;,
+// a basic dot phrase returns &#39;おっす&#39;
+__(&#39;greeting.hello.informal&#39;);
+
+// a basic dot phrase with sprintf returns &#39;Bob おっす&#39;
+__(&#39;greeting.hello.person.informal&#39;, &#39;Bob&#39;);
+
+//a basic dot phrase with interpolation returns &#39;Bob おっす&#39;
+__(&#39;greeting.hello.person.informal&#39;, {name:&#39;Bob&#39;});
+</code></pre>
+<p>####All notations with Message Format.<br /> See <a href="https://github.com/thetalecrafter/
+     message-format">message-format</a> for documentation.<br />See updated docs at README:</p><pre><code class="lang-javascript">// Assuming the locale === &#39;en-us&#39;,
+// a basic phrase with message formatting
+// returns &quot;You took 4,000 pictures since Jan 1, 2015 9:33:04 AM&quot;
+__(&#39;You took {n,number} pictures since 
+     {d,date} {d,time}&#39;, { n:4000, d:new Date() });
+
+// a basic bracket phrase with message formatting
+// returns &quot;You took 4,000 pictures since Jan 1, 2015 9:33:04 AM&quot;
+__(&#39;[You took {n, numbers} pictures].since.date&#39;, 
+     { n:4000, d:new Date() });
+
+// a basic dot phrase with message formatting
+// returns &quot;You took 4,000 pictures since Jan 1, 2015 9:33:04 AM&quot;
+__(&#39;pictures.since.date&#39;, { n:4000, d:new Date() });
+</code></pre>
+</td>
               </tr>
               <tr>
                 <td>return</td>
@@ -117,7 +163,18 @@
               <tr>
                 <td>id</td>
                 <td>string</td>
-                <td><p>The locale to change.</p></td>
+                <td><p>The locale to change. </p><p>####Get the current language.</p><pre><code class="lang-javascript">// assuming locale === &#39;en-us&#39;
+// returns &#39;American English&#39;
+__.languages();
+</code></pre>
+<p>####Get the current language in another locale. </p><pre><code class="lang-javascript">// assuming locale === &#39;en-us&#39;
+// returns &#39;English&#39;
+__.language(&#39;en&#39;);
+
+// returns &#39;Japanese&#39;
+__.language(&#39;ja&#39;);
+</code></pre>
+</td>
               </tr>
               <tr>
                 <td>return</td>
@@ -161,7 +218,23 @@
               <tr>
                 <td>supported</td>
                 <td>Array</td>
-                <td><p>The supported locales.</p></td>
+                <td><p>The supported locales. </p><p>####Get the supported languages.</p><pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;American English&#39;, &#39;Japanese&#39;]
+__.lanugages();
+</code></pre>
+<p>####Get the current languages in another locale. </p><pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;アメリカ英語&#39;, &#39;日本語&#39;]
+__.languages(&#39;ja&#39;);
+</code></pre>
+<p>####Override the supported locales.</p><pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;English&#39;, &#39;Japanese&#39;]
+__.languages([&#39;en&#39;, &#39;ja&#39;]);
+</code></pre>
+<p>####Override the supported locales<br />         and get the languages in another locale.</p><pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;英語&#39;, &#39;日本語&#39;]
+__.languages(&#39;ja&#39;, [&#39;en&#39;, &#39;ja&#39;]);
+</code></pre>
+</td>
               </tr>
               <tr>
                 <td>return</td>
@@ -207,7 +280,15 @@
               <tr>
                 <td>locale</td>
                 <td>String</td>
-                <td><p>The locale to set or get.</p></td>
+                <td><p>The locale to set or get. </p><p>####Get the current locale.</p><pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns &#39;en-us&#39;
+__.locale()
+</code></pre>
+<p>####Set the locale.</p><pre><code class="lang-javascript">// Asumming locale === &#39;en-us&#39;
+// sets and returns &#39;ja&#39;
+__.locale(&#39;ja&#39;)
+</code></pre>
+</td>
               </tr>
               <tr>
                 <td>return</td>
@@ -218,7 +299,7 @@
           </table>
           <div class="description"><p>Sets or gets the locale.</p></div>
           <pre><code class="language-javascript">i18n.locale = (locale) =&gt; {
-  debug('api', 'debug', `class: ${API.name}`, `process: i18n.locale`);
+  log.debug(`class: ${API.name}`, `process: i18n.locale`);
   return locale ?
     core.header.setLocale(locale) :
     core.header.detectLocale ?
