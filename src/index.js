@@ -76,6 +76,7 @@ var API = (function () {
       };
       /**
       * ### Example
+      * *The following applies only for gengojs-default-parser*
       *#### Phrase notation with default parser.
       *```javascript
       * // Assuming the locale === 'ja',
