@@ -48,7 +48,7 @@ Not Applicable
 * `this.header.detectLocale(locale:String)` from `Header` (optional)
 	* Should detect the current locale by parsing the 
 	Accept-Language, domains, sub-domains, queries, URLs, and cookies.
-* `supported:Array` from `Header` options
+* `this.header.options.supported:Array` from `Header` options
 	* Should be an array of supported locales.
 * `this.backend.catalog(locale:String)` from `Backend`
 	* Should return an object containing the dictionaries for each locale.
