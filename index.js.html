@@ -84,7 +84,22 @@
               <tr>
                 <td>arg</td>
                 <td></td>
-                <td><p>The arguments to internationalize. </p><h4>Phrase notation with default parser.</h4>
+                <td><p>The arguments to internationalize.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td><p>Then i18ned string.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>I18ns the arguments. Note: You can change ID for i18n. See Configuration.</p></div>
+          <pre><code class="language-javascript">i18n[options.global] = function(...args) {
+  log.debug(`class: ${API.name}`, `process: i18n`);
+  return core.parse.apply(core, args);
+};</code></pre>
+          <div class="description"><h3>Example</h3>
+<h4>Phrase notation with default parser.</h4>
 <pre><code class="lang-javascript">// Assuming the locale === &#39;ja&#39;,
 // a basic phrase returns &#39;こんにちは&#39;
 __(&#39;Hello&#39;);
@@ -119,35 +134,22 @@ __(&#39;greeting.hello.person.informal&#39;, {name:&#39;Bob&#39;});
 </code></pre>
 <h4>All notations with Message Format.</h4>
 <p> See <a href="https://github.com/thetalecrafter/
-     message-format">message-format</a> for documentation.<br />See updated docs at README:</p><pre><code class="lang-javascript">// Assuming the locale === &#39;en-us&#39;,
+        message-format">message-format</a> for documentation.<br />See updated docs at README:</p><pre><code class="lang-javascript">// Assuming the locale === &#39;en-us&#39;,
 // a basic phrase with message formatting
 // returns &quot;You took 4,000 pictures since Jan 1, 2015 9:33:04 AM&quot;
 __(&#39;You took {n,number} pictures since 
-     {d,date} {d,time}&#39;, { n:4000, d:new Date() });
+        {d,date} {d,time}&#39;, { n:4000, d:new Date() });
 
 // a basic bracket phrase with message formatting
 // returns &quot;You took 4,000 pictures since Jan 1, 2015 9:33:04 AM&quot;
 __(&#39;[You took {n, numbers} pictures].since.date&#39;, 
-     { n:4000, d:new Date() });
+        { n:4000, d:new Date() });
 
 // a basic dot phrase with message formatting
 // returns &quot;You took 4,000 pictures since Jan 1, 2015 9:33:04 AM&quot;
 __(&#39;pictures.since.date&#39;, { n:4000, d:new Date() });
 </code></pre>
-</td>
-              </tr>
-              <tr>
-                <td>return</td>
-                <td>String</td>
-                <td><p>Then i18ned string.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>I18ns the arguments. Note: You can change ID for i18n. See Configuration.</p></div>
-          <pre><code class="language-javascript">i18n[options.global] = function(...args) {
-  log.debug(`class: ${API.name}`, `process: i18n`);
-  return core.parse.apply(core, args);
-};</code></pre>
+</div>
           <section id="language">
             <h1>language</h1>
             <h5 class="subheader"></h5>
