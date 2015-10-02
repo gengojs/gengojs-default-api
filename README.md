@@ -77,24 +77,6 @@ SET DEBUG=gengo.api
 
 See [gengojs-debug](https://github.com/gengojs/gengojs-debug) for usage.
 
-## Reserved words
-
-There are a few reserved words in the API. These words are used for
-overriding purposes. See the example:
-
-```javascript
-// Using 'phrase' keyword:
-__({phrase:'Hello!'});
-// Using 'parser' keyword which
-// overrides the parser:
-// See https://github.com/iwatakeshi/gengojs-default-parser
-// for more details.
-__('Hello!', {parser:'default'});
-// Using 'locale' keyword which
-// overrides the locale:
-__('You have {n, plural, =0 {no photos.}=1 {one photo.}other {# photos.}}', {parser:'format'});
-```
-
 ## Contribute
 
 Feel free to contribute or even fork the project. This plugin has been
