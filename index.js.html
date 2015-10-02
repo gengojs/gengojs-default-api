@@ -319,17 +319,7 @@ __.languages(&#39;ja&#39;, [&#39;en&#39;, &#39;ja&#39;]);
               <tr>
                 <td>locale</td>
                 <td>String</td>
-                <td><p>The locale to set or get. </p><h4>Get the current locale.</h4>
-<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
-// returns &#39;en-us&#39;
-__.locale()
-</code></pre>
-<h4>Set the locale.</h4>
-<pre><code class="lang-javascript">// Asumming locale === &#39;en-us&#39;
-// sets and returns &#39;ja&#39;
-__.locale(&#39;ja&#39;)
-</code></pre>
-</td>
+                <td><p>The locale to set or get.</p></td>
               </tr>
               <tr>
                 <td>return</td>
@@ -417,8 +407,20 @@ __.locale(&#39;ja&#39;)
           <pre><code class="language-javascript">l10n[options.localize] = function(...args) {
   log.debug(`class: ${API.name}`, `process: i10n`);
   return core.localize.apply(core, args);
-};
-return {
+};</code></pre>
+          <div class="description"><h3>Example</h3>
+<h4>Get the current locale.</h4>
+<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns &#39;en-us&#39;
+__.locale()
+</code></pre>
+<h4>Set the locale.</h4>
+<pre><code class="lang-javascript">// Asumming locale === &#39;en-us&#39;
+// sets and returns &#39;ja&#39;
+__.locale(&#39;ja&#39;)
+</code></pre>
+</div>
+          <pre><code class="language-javascript">return {
   i18n: i18n,
   l10n: l10n
 };
