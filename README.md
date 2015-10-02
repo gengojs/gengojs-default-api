@@ -8,6 +8,11 @@ This module will be used for [gengo.js](https://github.com/gengojs/gengojs).
 
 Note: The API examples defined are respect to the [default parser](https://github.com/gengojs/plugin-parser).
 
+## Documentation
+
+See [documentation](https://gengojs.github.io/plugin-api)
+
+
 An example usage with options is:
 
 ```javascript
@@ -29,11 +34,24 @@ app.use(gengo({
 	}
 },/*api()*/));
 ```
-The default API is already included in gengo.js so you should not have to require it.
 
-## Documentation
+## Internal API
 
-See [documentation](https://gengojs.github.io/plugin-api)
+Not Applicable
+
+## Dependencies
+
+* `this.header.getLocale(locale:String)` from `Header`
+	* Should return a string of the current locale.
+* `this.header.setLocale(locale:String)` from `Header`
+	* Should set the locale.
+* `this.header.detectLocale(locale:String)` from `Header` (optional)
+	* Should detect the current locale by parsing the 
+	Accept-Language, domains, sub-domains, queries, URLs, and cookies.
+* `supported:Array` from `Header` options
+	* Should be an array of supported locales.
+* `this.backend.catalog(locale:String)` from `Backend`
+	* Should return an object containing the dictionaries for each locale.
 
 ## Options
 
@@ -43,17 +61,6 @@ See [documentation](https://gengojs.github.io/plugin-api)
 	"localize":"__l"
 }
 ```
-## Internal API
-
-None
-
-## Dependencies
-
-* `this.header.getLocale(locale:String)` from `Header` class
-* `this.header.setLocale(locale:String)` from `Header` class
-* `this.header.detectLocale(locale:String)` from `Header` class (optional)
-* `supported:Array` from `Header` options
-* `this.backend.catalog(locale:String)` from `Backend` class
 
 ## Debug
 

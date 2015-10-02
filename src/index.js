@@ -44,78 +44,27 @@ var API = (function () {
     value: function set() {
       log.debug('class: ' + API.name, 'process: set');
       var core = this.context;
+
+      /**
+       * The i18n function
+       */
       var i18n = function i18n() {};
+
+      /**
+       * The l10n function
+       */
       var l10n = function l10n() {};
+
+      // Set the options
       var options = this.options.api;
       _lodash2['default'].assign(options.header = {}, this.options.header);
       (0, _gengojsDebug2['default'])('api', 'info', 'options exists:', !!options);
-      /**
-      * @method i18n
-      * @description I18ns the arguments.
-      * Note: You can change ID for i18n. See Configuration.
-      * @param  {...*} arg The arguments to internationalize.
-      *
-      * @example <caption>Phrase notation with default parser.</caption>
-      *
-      * // Assuming the locale === 'ja',
-      * // a basic phrase returns 'こんにちは'
-      * __('Hello');
-      *
-      * // a basic phrase with sprintf returns 'Bob こんにちは'
-      * __('Hello %s', 'Bob');
-      *
-      * // a basic phrase with interpolation returns 'Bob こんにちは'
-      *  __('Hello {{name}}', {name:'Bob'});
-      *
-      * @example <caption>Bracket notation with default parser.</caption>
-      *
-      * // Assuming the locale === 'ja',
-      * // a basic bracket phrase returns 'おっす'
-      * __('[Hello].informal');
-      *
-      * // a basic bracket phrase with sprintf returns 'Bob おっす'
-      * __('[Hello %].informal', 'Bob');
-      *
-      * // a basic bracket phrase with interpolation returns 'Bob おっす'
-      * __('[Hello {{name}}].informal', {name:'Bob'});
-      *
-      * @example <caption>Dot notation with default parser.</caption>
-      *
-      * // Assuming the locale === 'ja',
-      * // a basic dot phrase returns 'おっす'
-      * __('greeting.hello.informal');
-      *
-      * // a basic dot phrase with sprintf returns 'Bob おっす'
-      * __('greeting.hello.person.informal', 'Bob');
-      *
-      * //a basic dot phrase with interpolation returns 'Bob おっす'
-      * __('greeting.hello.person.informal', {name:'Bob'});
-      *
-      * 
-      * @example <caption>All notations with Message Format.</caption>
-      * // See [message-format](https://github.com/thetalecrafter/
-      message-format) for documentation.
-      * // See updated docs at README:
-      * 
-      * // Assuming the locale === 'en-us',
-      * // a basic phrase with message formatting
-      * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
-      * __('You took {n,number} pictures since 
-      {d,date} {d,time}', { n:4000, d:new Date() });
-      *
-      * // a basic bracket phrase with message formatting
-      * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
-      * __('[You took {n, numbers} pictures].since.date', 
-      { n:4000, d:new Date() });
-      *
-      * // a basic dot phrase with message formatting
-      * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
-      * __('pictures.since.date', { n:4000, d:new Date() });
-      *
-      * @return {String} Then i18ned string.
-      * @public
-      */
 
+      /**
+       * i18ns the arguments. Note: You can change ID for i18n. See Options.
+       * @param  {...*} arg The arguments to internationalize.
+       * @return {String} Then i18ned string.
+       */
       i18n[options.global] = function () {
         log.debug('class: ' + API.name, 'process: i18n');
 
@@ -126,27 +75,70 @@ var API = (function () {
         return core.parse.apply(core, args);
       };
       /**
+      * ### Example
+      *#### Phrase notation with default parser.
+      *```javascript
+      * // Assuming the locale === 'ja',
+      * // a basic phrase returns 'こんにちは'
+      * __('Hello');
+      *
+      * // a basic phrase with sprintf returns 'Bob こんにちは'
+      * __('Hello %s', 'Bob');
+      *
+      * // a basic phrase with interpolation returns 'Bob こんにちは'
+      *  __('Hello {{name}}', {name:'Bob'});
+      *```
+      *#### Bracket notation with default parser.
+      *```javascript
+      * // Assuming the locale === 'ja',
+      * // a basic bracket phrase returns 'おっす'
+      * __('[Hello].informal');
+      *
+      * // a basic bracket phrase with sprintf returns 'Bob おっす'
+      * __('[Hello %].informal', 'Bob');
+      *
+      * // a basic bracket phrase with interpolation returns 'Bob おっす'
+      * __('[Hello {{name}}].informal', {name:'Bob'});
+      *```
+      *#### Dot notation with default parser.
+      *```javascript
+      * // Assuming the locale === 'ja',
+      * // a basic dot phrase returns 'おっす'
+      * __('greeting.hello.informal');
+      *
+      * // a basic dot phrase with sprintf returns 'Bob おっす'
+      * __('greeting.hello.person.informal', 'Bob');
+      *
+      * //a basic dot phrase with interpolation returns 'Bob おっす'
+      * __('greeting.hello.person.informal', {name:'Bob'});
+      *```
+      * 
+      *#### All notations with Message Format.
+      *  See [message-format](https://github.com/thetalecrafter/
+        message-format) for documentation.
+      * ```javascript
+      * // Assuming the locale === 'en-us',
+      * // a basic phrase with message formatting
+      * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
+      * __('You took {n,number} pictures since 
+        {d,date} {d,time}', { n:4000, d:new Date() });
+      *
+      * // a basic bracket phrase with message formatting
+      * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
+      * __('[You took {n, numbers} pictures].since.date', 
+        { n:4000, d:new Date() });
+      *
+      * // a basic dot phrase with message formatting
+      * // returns "You took 4,000 pictures since Jan 1, 2015 9:33:04 AM"
+      * __('pictures.since.date', { n:4000, d:new Date() });
+      *```
+      */
+
+      /**
        * @method language
        * @description Returns the name of the current locale.
        * @param  {string} id The locale to change.
-       *
-       * @example <caption>Get the current language.</caption>
-       *
-       * // assuming locale === 'en-us'
-       * // returns 'American English'
-       * __.languages();
-       *
-       * @example <caption>Get the current language in another locale. </caption>
-       *
-       * // assuming locale === 'en-us'
-       * // returns 'English'
-       * __.language('en');
-       *
-       * // returns 'Japanese'
-       * __.language('ja');
-       *
        * @return {String} Then i18ned string.
-       * @public
        */
       i18n.language = function (id) {
         log.debug('class: ' + API.name, 'process: i18n.languge');
@@ -158,40 +150,33 @@ var API = (function () {
         // store the languages
         return _cldr2['default'].extractLanguageDisplayNames(locale)[id];
       };
+
       /**
-      * @method languages
-      * @description Returns the names of the supported locale.
-      * @param  {String | Array} arg The locale to change or the supported locales.
-      * @param {Array} supported The supported locales.
-      *
-      * @example <caption>Get the supported languages.</caption>
-      *
-      * // Assuming locale === 'en-us'
-      * // returns ['American English', 'Japanese']
-      * __.lanugages();
-      *
-      * @example <caption>Get the current languages in another locale. </caption>
-      *
-      * // Assuming locale === 'en-us'
-      * // returns ['アメリカ英語', '日本語']
-      * __.languages('ja');
-      *
-      * @example <caption>Override the supported locales.</caption>
-      *
-      * // Assuming locale === 'en-us'
-      * // returns ['English', 'Japanese']
-      * __.languages(['en', 'ja']);
-      *
-      * @example <caption>Override the supported locales 
-      and get the languages in another locale.</caption>
-      *
-      * // Assuming locale === 'en-us'
-      * // returns ['英語', '日本語']
-      * __.languages('ja', ['en', 'ja']);
-      *
-      * @return {String} Then i18ned string.
-      * @public
-      */
+       * ### Example
+       *#### Get the current language.
+       *```javascript
+       * // assuming locale === 'en-us'
+       * // returns 'American English'
+       * __.languages();
+       *```
+       *#### Get the current language in another locale. 
+       *```javascript
+       * // assuming locale === 'en-us'
+       * // returns 'English'
+       * __.language('en');
+       *
+       * // returns 'Japanese'
+       * __.language('ja');
+       *```
+       */
+
+      /**
+       * @method languages
+       * @description Returns the names of the supported locale.
+       * @param  {String | Array} arg The locale to change or the supported locales.
+       * @param {Array} supported The supported locales.
+       * @return {String} Then i18ned string.
+       */
       i18n.languages = function (arg, supported) {
         log.debug('class: ' + API.name, 'process: i18n.languges');
         var _supported = [];
@@ -209,27 +194,41 @@ var API = (function () {
       };
 
       /**
+       * ### Example
+       * #### Get the supported languages.
+       *```javascript
+       * // Assuming locale === 'en-us'
+       * // returns ['American English', 'Japanese']
+       * __.lanugages();
+       *```
+       *#### Get the current languages in another locale. 
+       *```javascript
+       * // Assuming locale === 'en-us'
+       * // returns ['アメリカ英語', '日本語']
+       * __.languages('ja');
+       *```
+       *#### Override the supported locales.
+       *```javascript
+       * // Assuming locale === 'en-us'
+       * // returns ['English', 'Japanese']
+       * __.languages(['en', 'ja']);
+       *```
+       *#### Override the supported locales and get the languages in another locale.
+       *```javascript
+       * // Assuming locale === 'en-us'
+       * // returns ['英語', '日本語']
+       * __.languages('ja', ['en', 'ja']);
+       *```
+       */
+
+      /**
        * @method locale
        * @description Sets or gets the locale.
        * @param  {String} locale The locale to set or get.
-       *
-       * @example <caption>Get the current locale.</caption>
-       *
-       * // Assuming locale === 'en-us'
-       * // returns 'en-us'
-       * __.locale()
-       *
-       * @example <caption>Set the locale.</caption>
-       *
-       * // Asumming locale === 'en-us'
-       * // sets and returns 'ja'
-       * __.locale('ja')
-       *
        * @return {String} The locale.
-       * @public
        */
       i18n.locale = function (locale) {
-        (0, _gengojsDebug2['default'])('api', 'debug', 'class: ' + API.name, 'process: i18n.locale');
+        log.debug('class: ' + API.name, 'process: i18n.locale');
         return locale ? core.header.setLocale(locale) : core.header.detectLocale ? core.header.detectLocale() : core.header.getLocale();
       };
 
@@ -254,7 +253,7 @@ var API = (function () {
       };
 
       /**
-       * @method l10n
+       * l10n
        * @description Localizes date, time and numbers.
        * See [Tokei](https://github.com/iwatakeshi/tokei) for documentation.
        * Note: You can change ID for l10n. See Configuration.
@@ -271,6 +270,21 @@ var API = (function () {
 
         return core.localize.apply(core, args);
       };
+      /**
+       * ### Example
+       * #### Get the current locale.
+       *```javascript
+       * // Assuming locale === 'en-us'
+       * // returns 'en-us'
+       * __.locale()
+       *```
+       *#### Set the locale.
+       *```javascript
+       * // Asumming locale === 'en-us'
+       * // sets and returns 'ja'
+       * __.locale('ja')
+       *```
+       */
       return {
         i18n: i18n,
         l10n: l10n
