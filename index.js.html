@@ -156,7 +156,7 @@ __(&#39;greeting.hello.person.informal&#39;, {name:&#39;Bob&#39;});
 </code></pre>
 <h4>All notations with Message Format.</h4>
 <p> See <a href="https://github.com/thetalecrafter/
-        message-format">message-format</a> for documentation.<br />See updated docs at README:</p><pre><code class="lang-javascript">// Assuming the locale === &#39;en-us&#39;,
+        message-format">message-format</a> for documentation.</p><pre><code class="lang-javascript">// Assuming the locale === &#39;en-us&#39;,
 // a basic phrase with message formatting
 // returns &quot;You took 4,000 pictures since Jan 1, 2015 9:33:04 AM&quot;
 __(&#39;You took {n,number} pictures since 
@@ -191,20 +191,7 @@ __(&#39;pictures.since.date&#39;, { n:4000, d:new Date() });
               <tr>
                 <td>id</td>
                 <td>string</td>
-                <td><p>The locale to change. </p><h4>Get the current language.</h4>
-<pre><code class="lang-javascript">// assuming locale === &#39;en-us&#39;
-// returns &#39;American English&#39;
-__.languages();
-</code></pre>
-<h4>Get the current language in another locale.</h4>
-<pre><code class="lang-javascript">// assuming locale === &#39;en-us&#39;
-// returns &#39;English&#39;
-__.language(&#39;en&#39;);
-
-// returns &#39;Japanese&#39;
-__.language(&#39;ja&#39;);
-</code></pre>
-</td>
+                <td><p>The locale to change.</p></td>
               </tr>
               <tr>
                 <td>return</td>
@@ -224,6 +211,21 @@ __.language(&#39;ja&#39;);
   // store the languages
   return cldr.extractLanguageDisplayNames(locale)[id];
 };</code></pre>
+          <div class="description"><h3>Example</h3>
+<h4>Get the current language.</h4>
+<pre><code class="lang-javascript">// assuming locale === &#39;en-us&#39;
+// returns &#39;American English&#39;
+__.languages();
+</code></pre>
+<h4>Get the current language in another locale.</h4>
+<pre><code class="lang-javascript">// assuming locale === &#39;en-us&#39;
+// returns &#39;English&#39;
+__.language(&#39;en&#39;);
+
+// returns &#39;Japanese&#39;
+__.language(&#39;ja&#39;);
+</code></pre>
+</div>
           <section id="languages">
             <h1>languages</h1>
             <h5 class="subheader"></h5>
@@ -248,28 +250,7 @@ __.language(&#39;ja&#39;);
               <tr>
                 <td>supported</td>
                 <td>Array</td>
-                <td><p>The supported locales. </p><h4>Get the supported languages.</h4>
-<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
-// returns [&#39;American English&#39;, &#39;Japanese&#39;]
-__.lanugages();
-</code></pre>
-<h4>Get the current languages in another locale.</h4>
-<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
-// returns [&#39;アメリカ英語&#39;, &#39;日本語&#39;]
-__.languages(&#39;ja&#39;);
-</code></pre>
-<h4>Override the supported locales.</h4>
-<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
-// returns [&#39;English&#39;, &#39;Japanese&#39;]
-__.languages([&#39;en&#39;, &#39;ja&#39;]);
-</code></pre>
-<h4>Override the supported locales</h4>
-<pre><code>     and get the languages in another locale.
-</code></pre><pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
-// returns [&#39;英語&#39;, &#39;日本語&#39;]
-__.languages(&#39;ja&#39;, [&#39;en&#39;, &#39;ja&#39;]);
-</code></pre>
-</td>
+                <td><p>The supported locales.</p></td>
               </tr>
               <tr>
                 <td>return</td>
@@ -296,6 +277,29 @@ __.languages(&#39;ja&#39;, [&#39;en&#39;, &#39;ja&#39;]);
   }, core);
   return _supported;
 };</code></pre>
+          <div class="description"><h3>Example</h3>
+<h4>Get the supported languages.</h4>
+<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;American English&#39;, &#39;Japanese&#39;]
+__.lanugages();
+</code></pre>
+<h4>Get the current languages in another locale.</h4>
+<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;アメリカ英語&#39;, &#39;日本語&#39;]
+__.languages(&#39;ja&#39;);
+</code></pre>
+<h4>Override the supported locales.</h4>
+<pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;English&#39;, &#39;Japanese&#39;]
+__.languages([&#39;en&#39;, &#39;ja&#39;]);
+</code></pre>
+<h4>Override the supported locales</h4>
+<pre><code>     and get the languages in another locale.
+</code></pre><pre><code class="lang-javascript">// Assuming locale === &#39;en-us&#39;
+// returns [&#39;英語&#39;, &#39;日本語&#39;]
+__.languages(&#39;ja&#39;, [&#39;en&#39;, &#39;ja&#39;]);
+</code></pre>
+</div>
           <section id="locale">
             <h1>locale</h1>
             <h5 class="subheader"></h5>
