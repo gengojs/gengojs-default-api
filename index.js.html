@@ -26,6 +26,10 @@
                   </li>
                   <li><a href="#set"><i class="alert alert-info"></i><span>set</span></a>
                   </li>
+                  <li><a href="#i18n"><i class="alert alert-info"></i><span>i18n</span></a>
+                  </li>
+                  <li><a href="#l10n"><i class="alert alert-info"></i><span>l10n</span></a>
+                  </li>
                   <li><a href="#language"><i class="alert alert-info"></i><span>language</span></a>
                   </li>
                   <li><a href="#languages"><i class="alert alert-success"></i><span>languages</span></a>
@@ -66,12 +70,14 @@
           <div class="description"><p>Sets the API</p></div>
           <pre><code class="language-javascript">set() {
     log.debug(`class: ${API.name}`, `process: set`);
-    var core = this.context;
-    var i18n = function() {};
-    var l10n = function() {};
-    var options = this.options.api;
-    _.assign((options.header = {}), this.options.header);
-    debug('api', 'info', 'options exists:', !(!options));</code></pre>
+    var core = this.context;</code></pre>
+          <section id="i18n">
+            <h1>i18n</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>i18n()</span><span>&nbsp;</span>
+            </p>
+          </section>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -94,7 +100,43 @@
             </tbody>
           </table>
           <div class="description"><p>I18ns the arguments. Note: You can change ID for i18n. See Options.</p></div>
-          <pre><code class="language-javascript">i18n[options.global] = function(...args) {
+          <pre><code class="language-javascript">var i18n = function() {};</code></pre>
+          <section id="l10n">
+            <h1>l10n</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>l10n()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>locale</td>
+                <td>String</td>
+                <td><p>The locale to override.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Tokei</td>
+                <td><p>The instance of Tokei.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Localizes date, time and numbers. See <a href="https://github.com/iwatakeshi/tokei">Tokei</a> for documentation.<br />Note: You can change ID for l10n. See Configuration.</p></div>
+          <pre><code class="language-javascript">var l10n = function() {};
+var options = this.options.api;
+_.assign((options.header = {}), this.options.header);
+debug('api', 'info', 'options exists:', !(!options));
+
+// See comments above for i18n
+i18n[options.global] = function(...args) {
   log.debug(`class: ${API.name}`, `process: i18n`);
   return core.parse.apply(core, args);
 };</code></pre>
@@ -365,30 +407,10 @@ __.locale(&#39;ja&#39;)
           <pre><code class="language-javascript">i18n.catalog = (locale) =&gt; {
   log.debug(`class: ${API.name}`, `process: i18n.catalog`);
   return core.backend.catalog(locale);
-};</code></pre>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>locale</td>
-                <td>String</td>
-                <td><p>The locale to override.</p></td>
-              </tr>
-              <tr>
-                <td>return</td>
-                <td>Tokei</td>
-                <td><p>The instance of Tokei.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Localizes date, time and numbers. See <a href="https://github.com/iwatakeshi/tokei">Tokei</a> for documentation.<br />Note: You can change ID for l10n. See Configuration.</p></div>
-          <pre><code class="language-javascript">l10n[options.localize] = function(...args) {
+};
+
+// See comments above for l10n
+l10n[options.localize] = function(...args) {
   log.debug(`class: ${API.name}`, `process: i10n`);
   return core.localize.apply(core, args);
 };
