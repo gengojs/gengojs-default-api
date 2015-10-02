@@ -10,7 +10,7 @@ Note: The API examples defined are respect to the [default parser](https://githu
 
 An example usage with options is:
 
-```js
+```javascript
 
 var gengo = require('gengojs');
 var api = require('gengojs-default-api');
@@ -75,7 +75,7 @@ See [gengojs-debug](https://github.com/gengojs/gengojs-debug) for usage.
 There are a few reserved words in the API. These words are used for
 overriding purposes. See the example:
 
-```js
+```javascript
 // Using 'phrase' keyword:
 __({phrase:'Hello!'});
 // Using 'parser' keyword which
