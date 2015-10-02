@@ -78,6 +78,22 @@
               <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>i18n()</span><span>&nbsp;</span>
             </p>
           </section>
+          <div class="description"><p>The i18n function</p></div>
+          <pre><code class="language-javascript">var i18n = function() {};</code></pre>
+          <section id="l10n">
+            <h1>l10n</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>l10n()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>The l10n function</p></div>
+          <pre><code class="language-javascript">var l10n = function() {};
+
+// Set the options
+var options = this.options.api;
+_.assign((options.header = {}), this.options.header);
+debug('api', 'info', 'options exists:', !(!options));</code></pre>
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -99,45 +115,8 @@
               </tr>
             </tbody>
           </table>
-          <div class="description"><p>I18ns the arguments. Note: You can change ID for i18n. See Options.</p></div>
-          <pre><code class="language-javascript">var i18n = function() {};</code></pre>
-          <section id="l10n">
-            <h1>l10n</h1>
-            <h5 class="subheader"></h5>
-            <p>
-              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>l10n()</span><span>&nbsp;</span>
-            </p>
-          </section>
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th style="width:20%">Option name</th>
-                <th style="width:20%">Type</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>locale</td>
-                <td>String</td>
-                <td><p>The locale to override.</p></td>
-              </tr>
-              <tr>
-                <td>return</td>
-                <td>Tokei</td>
-                <td><p>The instance of Tokei.</p></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="description"><p>Localizes date, time and numbers. See <a href="https://github.com/iwatakeshi/tokei">Tokei</a> for documentation.<br />Note: You can change ID for l10n. See Configuration.</p></div>
-          <pre><code class="language-javascript">var l10n = function() {};
-// Set the options
-var options = this.options.api;
-_.assign((options.header = {}), this.options.header);
-debug('api', 'info', 'options exists:', !(!options));
-
-// See comments above for i18n
-i18n[options.global] = function(...args) {
+          <div class="description"><p>i18ns the arguments. Note: You can change ID for i18n. See Options.</p></div>
+          <pre><code class="language-javascript">i18n[options.global] = function(...args) {
   log.debug(`class: ${API.name}`, `process: i18n`);
   return core.parse.apply(core, args);
 };</code></pre>
@@ -408,10 +387,30 @@ __.locale(&#39;ja&#39;)
           <pre><code class="language-javascript">i18n.catalog = (locale) =&gt; {
   log.debug(`class: ${API.name}`, `process: i18n.catalog`);
   return core.backend.catalog(locale);
-};
-
-// See comments above for l10n
-l10n[options.localize] = function(...args) {
+};</code></pre>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>locale</td>
+                <td>String</td>
+                <td><p>The locale to override.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Tokei</td>
+                <td><p>The instance of Tokei.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>l10n</p></div>
+          <pre><code class="language-javascript">l10n[options.localize] = function(...args) {
   log.debug(`class: ${API.name}`, `process: i10n`);
   return core.localize.apply(core, args);
 };
