@@ -77,7 +77,10 @@ SET DEBUG=gengo.api
 
 See [gengojs-debug](https://github.com/gengojs/gengojs-debug) for usage.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 ## Contribute
 
 Feel free to contribute or even fork the project. This plugin has been
